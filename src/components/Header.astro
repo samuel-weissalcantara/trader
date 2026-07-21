@@ -1,29 +1,38 @@
 ---
 import { site } from "../data/site";
+import { getContent, localePath, type Lang } from "../data/i18n";
 
 interface Props {
-  page?: "home" | "gallery";
+  page?: "home" | "gallery" | "legal";
+  lang: Lang;
+  /** Unprefixed path of the equivalent page in the other language, e.g. "/gallery" or "/impressum". Defaults to "/". */
+  altPath?: string;
 }
-const { page = "home" } = Astro.props;
-const homeHref = (anchor: string) => (page === "home" ? anchor : `/${anchor}`);
+const { page = "home", lang, altPath = page === "gallery" ? "/gallery" : "/" } = Astro.props;
+const t = getContent(lang);
+const homeHref = (anchor: string) => (page === "home" ? anchor : `${localePath(lang, "/")}${anchor}`);
+const otherLang: Lang = lang === "de" ? "en" : "de";
 ---
 
 <header class="site-header">
   <div class="wrap bar">
-    <a href="/" class="wordmark" aria-label="TRADER home">
+    <a href={localePath(lang, "/")} class="wordmark" aria-label="TRADER home">
       TRADER
       <span class="wordmark-sub">Gallery</span>
     </a>
 
     <nav class="nav" aria-label="Primary">
-      <a href={homeHref("#story")}>Story</a>
-      <a href={homeHref("#menu")}>Menu</a>
-      <a href="/gallery" aria-current={page === "gallery" ? "page" : undefined}>Gallery</a>
-      <a href={homeHref("#visit")}>Visit</a>
+      <a href={homeHref("#story")}>{t.nav.story}</a>
+      <a href={homeHref("#menu")}>{t.nav.menu}</a>
+      <a href={localePath(lang, "/gallery")} aria-current={page === "gallery" ? "page" : undefined}>{t.nav.gallery}</a>
+      <a href={homeHref("#visit")}>{t.nav.visit}</a>
     </nav>
 
     <div class="actions">
-      <a class="btn btn-primary btn-visit" href={homeHref("#visit")}>Plan your visit</a>
+      <a class="lang-switch" href={localePath(otherLang, altPath)} hreflang={otherLang}>
+        {otherLang.toUpperCase()}
+      </a>
+      <a class="btn btn-primary btn-visit" href={homeHref("#visit")}>{t.nav.planVisit}</a>
       <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" data-menu-toggle>
         <span></span>
       </button>
@@ -31,11 +40,14 @@ const homeHref = (anchor: string) => (page === "home" ? anchor : `/${anchor}`);
   </div>
 
   <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
-    <a href={homeHref("#story")}>Story</a>
-    <a href={homeHref("#menu")}>Menu</a>
-    <a href="/gallery">Gallery</a>
-    <a href={homeHref("#visit")}>Visit</a>
-    <a class="btn btn-primary" href={homeHref("#visit")}>Plan your visit</a>
+    <a href={homeHref("#story")}>{t.nav.story}</a>
+    <a href={homeHref("#menu")}>{t.nav.menu}</a>
+    <a href={localePath(lang, "/gallery")}>{t.nav.gallery}</a>
+    <a href={homeHref("#visit")}>{t.nav.visit}</a>
+    <a href={localePath(otherLang, altPath)} hreflang={otherLang}>
+      {otherLang === "de" ? "Deutsch" : "English"}
+    </a>
+    <a class="btn btn-primary" href={homeHref("#visit")}>{t.nav.planVisit}</a>
     <a class="ig-link" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
   </nav>
 </header>
@@ -116,6 +128,23 @@ const homeHref = (anchor: string) => (page === "home" ? anchor : `/${anchor}`);
     display: flex;
     align-items: center;
     gap: 1em;
+  }
+
+  .lang-switch {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.4em 0.75em;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+
+  .lang-switch:hover {
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   .btn-visit {

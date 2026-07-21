@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Hero from "../../components/sections/Hero.astro";
+import Story from "../../components/sections/Story.astro";
+import Menu from "../../components/sections/Menu.astro";
+import GalleryTeaser from "../../components/sections/GalleryTeaser.astro";
+import Visit from "../../components/sections/Visit.astro";
+import { site } from "../../data/site";
+
+const lang = "en" as const;
+---
+
+<Base
+  title={`${site.fullName} — Specialty Coffee, Matcha & Art in Hamburg`}
+  description="Specialty coffee, ceremonial matcha & rotating art in Hamburg's Schanze."
+  lang={lang}
+  path="/"
+>
+  <Header slot="header" page="home" lang={lang} />
+
+  <Hero lang={lang} />
+  <Story lang={lang} />
+  <Menu lang={lang} />
+  <GalleryTeaser lang={lang} />
+  <Visit lang={lang} />
+
+  <Footer slot="footer" lang={lang} />
+</Base>

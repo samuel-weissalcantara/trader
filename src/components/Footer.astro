@@ -1,48 +1,63 @@
 ---
-import { site, hoursDisplay } from "../data/site";
+import { site } from "../data/site";
+import { getContent, localePath, type Lang } from "../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang);
 ---
 
 <footer class="site-footer">
   <div class="wrap grid">
     <div class="col brand">
       <p class="wordmark">TRADER<span>Gallery</span></p>
-      <p class="tag">{site.tagline}</p>
+      <p class="tag">{t.hero.tagline}</p>
       <a class="ig" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle} ↗</a>
     </div>
 
     <div class="col">
-      <p class="col-title">Visit</p>
+      <p class="col-title">{t.footer.visitTitle}</p>
       <address>
         {site.address.street}<br />
         {site.address.postal} {site.address.city}<br />
         {site.address.district}
       </address>
-      <a class="link" href={site.mapsUrl} target="_blank" rel="noopener">Get directions ↗</a>
+      <a class="link" href={site.mapsUrl} target="_blank" rel="noopener">{t.footer.directions}</a>
     </div>
 
     <div class="col">
-      <p class="col-title">Hours</p>
+      <p class="col-title">{t.footer.hoursTitle}</p>
       <ul>
-        {hoursDisplay.map((h) => (
+        {t.visit.hoursDisplay.map((h) => (
           <li><span>{h.label}</span><span>{h.value}</span></li>
         ))}
       </ul>
     </div>
 
     <div class="col">
-      <p class="col-title">Explore</p>
+      <p class="col-title">{t.footer.exploreTitle}</p>
       <ul class="links">
-        <li><a href="/#story">Story</a></li>
-        <li><a href="/#menu">Menu</a></li>
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/#visit">Visit</a></li>
+        <li><a href={`${localePath(lang, "/")}#story`}>{t.nav.story}</a></li>
+        <li><a href={`${localePath(lang, "/")}#menu`}>{t.nav.menu}</a></li>
+        <li><a href={localePath(lang, "/gallery")}>{t.nav.gallery}</a></li>
+        <li><a href={`${localePath(lang, "/")}#visit`}>{t.nav.visit}</a></li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <p class="col-title">{t.footer.legalTitle}</p>
+      <ul class="links">
+        <li><a href={localePath(lang, "/impressum")}>{t.footer.impressum}</a></li>
+        <li><a href={localePath(lang, "/datenschutz")}>{t.footer.datenschutz}</a></li>
       </ul>
     </div>
   </div>
 
   <div class="wrap bottom">
     <p>© {new Date().getFullYear()} TRADER, Hamburg.</p>
-    <p>{site.priceRange} per person · ★ {site.rating.value} ({site.rating.count} reviews)</p>
+    <p>{site.priceRange} {t.footer.perPerson} · ★ {site.rating.value} ({site.rating.count} {t.footer.reviews})</p>
   </div>
 </footer>
 
@@ -55,7 +70,7 @@ import { site, hoursDisplay } from "../data/site";
 
   .grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
     gap: clamp(2rem, 5vw, 3rem);
   }
 
@@ -147,13 +162,19 @@ import { site, hoursDisplay } from "../data/site";
     margin: 0;
   }
 
-  @media (max-width: 780px) {
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
     .grid {
       grid-template-columns: 1fr 1fr;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 420px) {
     .grid {
       grid-template-columns: 1fr;
     }

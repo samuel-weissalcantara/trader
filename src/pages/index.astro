@@ -8,16 +8,23 @@ import Menu from "../components/sections/Menu.astro";
 import GalleryTeaser from "../components/sections/GalleryTeaser.astro";
 import Visit from "../components/sections/Visit.astro";
 import { site } from "../data/site";
+
+const lang = "de" as const;
 ---
 
-<Base title={`${site.fullName} — Specialty Coffee, Matcha & Art in Hamburg`} page="home">
-  <Header slot="header" page="home" />
+<Base
+  title={`${site.fullName} — Spezialitätenkaffee, Matcha & Kunst in Hamburg`}
+  description="Spezialitätenkaffee, zeremonieller Matcha & wechselnde Kunst im Hamburger Schanzenviertel."
+  lang={lang}
+  path="/"
+>
+  <Header slot="header" page="home" lang={lang} />
 
-  <Hero />
-  <Story />
-  <Menu />
-  <GalleryTeaser />
-  <Visit />
+  <Hero lang={lang} />
+  <Story lang={lang} />
+  <Menu lang={lang} />
+  <GalleryTeaser lang={lang} />
+  <Visit lang={lang} />
 
-  <Footer slot="footer" />
+  <Footer slot="footer" lang={lang} />
 </Base>

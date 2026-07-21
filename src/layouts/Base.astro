@@ -1,15 +1,20 @@
 ---
 import "../styles/global.css";
 import { site } from "../data/site";
+import { localePath, type Lang } from "../data/i18n";
 
 interface Props {
   title: string;
-  description?: string;
-  page?: "home" | "gallery";
+  description: string;
+  lang: Lang;
+  /** Unprefixed path, e.g. "/" or "/gallery" or "/impressum", used to build hreflang alternates. */
+  path: string;
 }
 
-const { title, description = site.descriptor, page = "home" } = Astro.props;
+const { title, description, lang, path } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const deUrl = new URL(localePath("de", path), Astro.site);
+const enUrl = new URL(localePath("en", path), Astro.site);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -45,12 +50,15 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="de" href={deUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={deUrl} />
     <title>{title}</title>
     <meta name="description" content={description} />
 
@@ -58,6 +66,7 @@ const jsonLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={lang === "de" ? "de_DE" : "en_GB"} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

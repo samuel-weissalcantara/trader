@@ -1,12 +1,12 @@
 ---
-import Base from "../layouts/Base.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import Frame from "../components/Frame.astro";
-import { galleryImages, exhibition, site } from "../data/site";
-import { getContent, type Lang } from "../data/i18n";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Frame from "../../components/Frame.astro";
+import { galleryImages, exhibition, site } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
 
-const lang: Lang = "de";
+const lang: Lang = "en";
 const t = getContent(lang);
 const images = galleryImages.map((img) => ({
   ...img,
@@ -23,8 +23,8 @@ const categories = [
 ---
 
 <Base
-  title={`Galerie — ${site.fullName}`}
-  description="Wechselnde Ausstellungen und Café-Momente von TRADER Gallery, Hamburg."
+  title={`Gallery — ${site.fullName}`}
+  description="Rotating exhibitions and café moments from TRADER Gallery, Hamburg."
   lang={lang}
   path="/gallery"
 >

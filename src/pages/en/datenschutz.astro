@@ -1,0 +1,90 @@
+---
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { site } from "../../data/site";
+import "../../styles/legal.css";
+---
+
+<Base
+  title={`Privacy Policy — ${site.fullName}`}
+  description="Privacy policy for TRADER Gallery, Hamburg."
+  lang="en"
+  path="/datenschutz"
+>
+  <Header slot="header" lang="en" altPath="/datenschutz" />
+
+  <section class="section">
+    <div class="wrap legal">
+      <p class="eyebrow">Legal</p>
+      <h1>Privacy Policy</h1>
+
+      <h2>1. Controller</h2>
+      <p>
+        The party responsible for data processing on this website is:<br />
+        TRADER Gallery, represented by Vincent von Thien<br />
+        {site.address.street}, {site.address.postal} {site.address.city}<br />
+        Email: <a href={`mailto:${"gallery@trader-hamburg.example"}`}>gallery@trader-hamburg.example</a>
+      </p>
+      <p class="placeholder">
+        <strong>Placeholder:</strong> add real contact details before publishing this site.
+      </p>
+
+      <h2>2. Hosting</h2>
+      <p>
+        This website is hosted by an external service provider. Personal data collected on this website is
+        stored on the hosting provider's servers.
+      </p>
+      <p class="placeholder">
+        <strong>Placeholder:</strong> add the hosting provider's name and address once the site goes live.
+      </p>
+
+      <h2>3. Collection and storage of personal data</h2>
+      <p>
+        When you access this website, our hosting provider automatically collects information in so-called
+        server log files that your browser transmits automatically (e.g. browser type, operating system,
+        referrer URL, date and time of access). This data cannot be attributed to a specific person and is
+        evaluated solely to ensure trouble-free operation of the site and to improve our offering.
+      </p>
+
+      <h2>4. Cookies and tracking</h2>
+      <p>
+        This website currently does not use cookies or any tracking or analytics tools. Should this change,
+        this privacy policy will be updated accordingly and, where required, your consent will be obtained in
+        advance.
+      </p>
+
+      <h2>5. Contacting us</h2>
+      <p>
+        If you contact us by email, the information you provide is stored to process your inquiry and in case
+        of follow-up questions. We do not pass this data on without your consent.
+      </p>
+
+      <h2>6. Your rights</h2>
+      <p>You have the right at any time to:</p>
+      <ul>
+        <li>request information about the personal data we process about you (Art. 15 GDPR),</li>
+        <li>request correction of inaccurate data (Art. 16 GDPR),</li>
+        <li>request deletion of your data stored with us (Art. 17 GDPR),</li>
+        <li>request restriction of processing (Art. 18 GDPR),</li>
+        <li>object to the processing of your data (Art. 21 GDPR), and</li>
+        <li>request data portability (Art. 20 GDPR).</li>
+      </ul>
+      <p>
+        You also have the right to lodge a complaint with a data protection supervisory authority about our
+        processing of your personal data. The competent authority is the
+        <a href="https://datenschutz-hamburg.de/" target="_blank" rel="noopener">
+          Hamburg Commissioner for Data Protection and Freedom of Information
+        </a>.
+      </p>
+
+      <h2>7. Changes to this privacy policy</h2>
+      <p>
+        We reserve the right to adapt this privacy policy so that it always complies with current legal
+        requirements, or to implement changes to our services.
+      </p>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="en" />
+</Base>
