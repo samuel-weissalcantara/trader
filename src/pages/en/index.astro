@@ -6,6 +6,7 @@ import Hero from "../../components/sections/Hero.astro";
 import Story from "../../components/sections/Story.astro";
 import Menu from "../../components/sections/Menu.astro";
 import GalleryTeaser from "../../components/sections/GalleryTeaser.astro";
+import Testimonials from "../../components/sections/Testimonials.astro";
 import Visit from "../../components/sections/Visit.astro";
 import { site } from "../../data/site";
 
@@ -24,6 +25,7 @@ const lang = "en" as const;
   <Story lang={lang} />
   <Menu lang={lang} />
   <GalleryTeaser lang={lang} />
+  <Testimonials lang={lang} />
   <Visit lang={lang} />
 
   <Footer slot="footer" lang={lang} />

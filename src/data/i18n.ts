@@ -94,6 +94,12 @@ export type Content = {
     exhibitionDatesLabel: string;
   };
   legalNav: { impressum: string; datenschutz: string };
+  testimonials: {
+    eyebrow: string;
+    heading: string;
+    ratingSuffix: string;
+    quotes: { quote: string; name: string; meta: string }[];
+  };
 };
 
 const de: Content = {
@@ -213,6 +219,26 @@ const de: Content = {
     ],
   },
   legalNav: { impressum: "Impressum", datenschutz: "Datenschutz" },
+  testimonials: {
+    eyebrow: "Bewertungen",
+    heading: "Was unsere Gäste sagen.",
+    ratingSuffix: "aus 323 Google-Bewertungen",
+    quotes: [
+      { quote: "Wunderschöner Cappuccino und ruhiges Flair.", name: "Google Rezension", meta: "★★★★★" },
+      {
+        quote:
+          "Ich bin selber Barista und das ist mein Lieblingscafé in Hamburg. So eine schöne Einrichtung, so leckerer Kaffee. Ganz große Empfehlung.",
+        name: "Helene S.",
+        meta: "Local Guide · Barista",
+      },
+      {
+        quote:
+          "Nach drei Monaten Europareise hat dieser Ort genau ins Schwarze getroffen. Ein bescheidener Ort mit toller Kunst und Kunsthandwerk zum Kaufen.",
+        name: "Kurtis Kelly",
+        meta: "Local Guide",
+      },
+    ],
+  },
 };
 
 const en: Content = {
@@ -331,6 +357,26 @@ const en: Content = {
     ],
   },
   legalNav: { impressum: "Legal Notice", datenschutz: "Privacy Policy" },
+  testimonials: {
+    eyebrow: "Reviews",
+    heading: "What our guests say.",
+    ratingSuffix: "from 323 Google reviews",
+    quotes: [
+      { quote: "Beautiful cappuccino and a calm atmosphere.", name: "Google review", meta: "★★★★★" },
+      {
+        quote:
+          "I'm a barista myself, and this is my favorite café in Hamburg. Such beautiful decor, such delicious coffee. Highly recommend.",
+        name: "Helene S.",
+        meta: "Local Guide · Barista",
+      },
+      {
+        quote:
+          "After travelling Europe for 3 months this place absolutely hit the spot. A humble place with awesome arts and crafts you can purchase.",
+        name: "Kurtis Kelly",
+        meta: "Local Guide",
+      },
+    ],
+  },
 };
 
 const dictionary: Record<Lang, Content> = { de, en };
