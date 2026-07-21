@@ -1,0 +1,161 @@
+---
+import { site, hoursDisplay } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="col brand">
+      <p class="wordmark">TRADER<span>Gallery</span></p>
+      <p class="tag">{site.tagline}</p>
+      <a class="ig" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle} ↗</a>
+    </div>
+
+    <div class="col">
+      <p class="col-title">Visit</p>
+      <address>
+        {site.address.street}<br />
+        {site.address.postal} {site.address.city}<br />
+        {site.address.district}
+      </address>
+      <a class="link" href={site.mapsUrl} target="_blank" rel="noopener">Get directions ↗</a>
+    </div>
+
+    <div class="col">
+      <p class="col-title">Hours</p>
+      <ul>
+        {hoursDisplay.map((h) => (
+          <li><span>{h.label}</span><span>{h.value}</span></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="col">
+      <p class="col-title">Explore</p>
+      <ul class="links">
+        <li><a href="/#story">Story</a></li>
+        <li><a href="/#menu">Menu</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/#visit">Visit</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap bottom">
+    <p>© {new Date().getFullYear()} TRADER, Hamburg.</p>
+    <p>{site.priceRange} per person · ★ {site.rating.value} ({site.rating.count} reviews)</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+
+  .brand .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    margin: 0 0 0.3em;
+  }
+
+  .brand .wordmark span {
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b9c39e;
+    margin-left: 0.6em;
+  }
+
+  .tag {
+    color: #cfc6b6;
+    max-width: 26ch;
+  }
+
+  .ig {
+    color: #b9c39e;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .col-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9c9384;
+    margin-bottom: 1em;
+  }
+
+  address {
+    font-style: normal;
+    color: #e6dfd0;
+    margin-bottom: 0.9em;
+    line-height: 1.6;
+  }
+
+  .link,
+  .links a {
+    color: #e6dfd0;
+    text-decoration: none;
+  }
+
+  .link:hover,
+  .links a:hover {
+    color: var(--sage);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .col ul:not(.links) li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    color: #cfc6b6;
+    padding-block: 0.25em;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(244, 239, 230, 0.08);
+  }
+
+  .links li {
+    margin-bottom: 0.6em;
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(244, 239, 230, 0.12);
+    font-size: 0.82rem;
+    color: #9c9384;
+  }
+
+  .bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 780px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

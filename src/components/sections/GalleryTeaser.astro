@@ -1,0 +1,134 @@
+---
+import Frame from "../Frame.astro";
+import { galleryImages, exhibition } from "../../data/site";
+
+const preview = galleryImages.slice(0, 4);
+---
+
+<section class="section-tight gallery-teaser">
+  <div class="wrap">
+    <div class="teaser-head reveal" data-reveal>
+      <div>
+        <p class="eyebrow">The gallery</p>
+        <h2>Café by day, gallery always.</h2>
+      </div>
+      <a class="btn btn-outline" href="/gallery">View full gallery →</a>
+    </div>
+
+    <div class="teaser-grid reveal" data-reveal>
+      {preview.map((img, i) => (
+        <a href="/gallery" class={`teaser-cell cell-${i}`}>
+          <Frame src={img.src} alt={img.alt} ratio="1 / 1" label={img.category} />
+        </a>
+      ))}
+
+      <a href="/gallery" class="exhibition-card">
+        <p class="eyebrow">{exhibition.eyebrow}</p>
+        <h3>{exhibition.title}</h3>
+        <p class="artist">{exhibition.artist}</p>
+        <p class="dates">{exhibition.dates}</p>
+        <span class="link">See the exhibition →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .teaser-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    flex-wrap: wrap;
+  }
+
+  .teaser-head h2 {
+    margin-top: 0.2em;
+  }
+
+  .teaser-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, minmax(140px, auto));
+    gap: 0.8rem;
+  }
+
+  .teaser-cell {
+    display: block;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .teaser-cell:hover {
+    transform: translateY(-4px);
+  }
+
+  .cell-0 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .cell-1 {
+    grid-column: span 1;
+  }
+  .cell-2 {
+    grid-column: span 1;
+  }
+  .cell-3 {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .exhibition-card {
+    grid-column: span 1;
+    grid-row: span 1;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 1.2em;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15em;
+  }
+
+  .exhibition-card .eyebrow {
+    color: #b9c39e;
+  }
+
+  .exhibition-card h3 {
+    margin: 0.1em 0 0;
+    font-size: 1.15rem;
+  }
+
+  .exhibition-card .artist {
+    color: #cfc6b6;
+    margin: 0;
+    font-size: 0.85rem;
+  }
+
+  .exhibition-card .dates {
+    color: #9c9384;
+    font-size: 0.75rem;
+    margin: 0.4em 0 0.8em;
+  }
+
+  .exhibition-card .link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sage);
+  }
+
+  @media (max-width: 900px) {
+    .teaser-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+    }
+    .cell-0,
+    .cell-3 {
+      grid-row: auto;
+    }
+  }
+</style>

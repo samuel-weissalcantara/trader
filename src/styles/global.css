@@ -1,0 +1,209 @@
+@import "@fontsource-variable/fraunces/standard.css";
+@import "@fontsource-variable/fraunces/standard-italic.css";
+@import "@fontsource-variable/inter";
+
+:root {
+  /* Palette */
+  --paper: #f4efe6;
+  --paper-dim: #ece4d4;
+  --ink: #211c16;
+  --ink-soft: #4a4239;
+  --sage: #7c8a5a;
+  --sage-dark: #5f6b43;
+  --clay: #b5714f;
+  --line: rgba(33, 28, 22, 0.14);
+  --surface: #ffffff;
+
+  /* Type */
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Scale */
+  --step-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --step-h1: clamp(2.75rem, 2rem + 4vw, 5.5rem);
+  --step-h2: clamp(2rem, 1.6rem + 2vw, 3.25rem);
+  --step-h3: clamp(1.35rem, 1.2rem + 0.8vw, 1.85rem);
+
+  --container: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.7s;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: var(--step-h1);
+}
+
+h2 {
+  font-size: var(--step-h2);
+}
+
+h3 {
+  font-size: var(--step-h3);
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--ink-soft);
+}
+
+.wrap {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.6em;
+  height: 1px;
+  background: currentColor;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85em 1.6em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-primary:hover {
+  background: var(--sage-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn-outline:hover {
+  border-color: var(--ink);
+}
+
+.section {
+  padding-block: clamp(4rem, 8vw, 8rem);
+}
+
+.section-head {
+  max-width: 46ch;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Scroll reveal — progressive enhancement: content is visible by default so
+   no-JS users, crawlers, and print always see it. The `has-js` class (set
+   synchronously in <head>) opts a hydrated page into the hidden-until-visible
+   animation instead. */
+.has-js .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.reveal {
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-js .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+::selection {
+  background: var(--sage);
+  color: var(--paper);
+}
