@@ -1,0 +1,88 @@
+---
+import Frame from "../Frame.astro";
+import { story } from "../../data/site";
+---
+
+<section id="story" class="section story">
+  <div class="wrap story-grid">
+    <div class="story-media reveal" data-reveal>
+      <Frame src="placeholder:people:3" alt="Barista preparing ceremonial matcha behind the bar" ratio="4 / 5" />
+      <div class="story-media-small">
+        <Frame src="placeholder:art:3" alt="Detail of vintage furniture and hung artwork" ratio="1 / 1" />
+      </div>
+    </div>
+
+    <div class="story-copy reveal" data-reveal>
+      <p class="eyebrow">{story.eyebrow}</p>
+      <h2>{story.heading}</h2>
+      {story.body.map((p) => <p>{p}</p>)}
+
+      <dl class="stats">
+        {story.stats.map((s) => (
+          <div class="stat">
+            <dt>{s.value}</dt>
+            <dd>{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .story-media {
+    position: relative;
+  }
+
+  .story-media-small {
+    position: absolute;
+    width: 42%;
+    right: -8%;
+    bottom: -12%;
+    border: 6px solid var(--paper);
+    border-radius: 6px;
+    box-shadow: 0 20px 40px -20px rgba(33, 28, 22, 0.35);
+  }
+
+  .story-copy p {
+    max-width: 52ch;
+  }
+
+  .stats {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: 2.2em;
+    padding-top: 1.8em;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .stat dt {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    color: var(--sage-dark);
+  }
+
+  .stat dd {
+    margin: 0.2em 0 0;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    max-width: 16ch;
+  }
+
+  @media (max-width: 900px) {
+    .story-grid {
+      grid-template-columns: 1fr;
+    }
+    .story-media {
+      margin-bottom: 3rem;
+    }
+  }
+</style>

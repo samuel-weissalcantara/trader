@@ -1,0 +1,95 @@
+---
+import Frame from "../Frame.astro";
+import OpenStatus from "../OpenStatus.astro";
+import { site, hoursDisplay } from "../../data/site";
+---
+
+<section id="visit" class="section visit">
+  <div class="wrap visit-grid">
+    <div class="visit-map reveal" data-reveal>
+      <Frame src="placeholder:space:5" alt="Map view placeholder near Bartelsstraße, Sternschanze" ratio="4 / 5" label="Bartelsstraße 37" />
+    </div>
+
+    <div class="visit-copy reveal" data-reveal>
+      <p class="eyebrow">Visit</p>
+      <h2>Find us in the Schanze.</h2>
+
+      <div class="visit-block">
+        <h3>Address</h3>
+        <p>{site.address.street}<br />{site.address.postal} {site.address.city}</p>
+        <p class="hint">2 min from Sternschanze S-Bahn / U-Bahn.</p>
+      </div>
+
+      <div class="visit-block">
+        <h3>Hours</h3>
+        <ul class="hours-list">
+          {hoursDisplay.map((h) => (
+            <li><span>{h.label}</span><span>{h.value}</span></li>
+          ))}
+        </ul>
+        <div class="status-row"><OpenStatus /></div>
+      </div>
+
+      <div class="visit-ctas">
+        <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">Get directions</a>
+        <a class="btn btn-outline" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .visit-block {
+    margin-bottom: 1.8em;
+  }
+
+  .visit-block h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5em;
+  }
+
+  .hint {
+    color: var(--sage-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .hours-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 26rem;
+  }
+
+  .hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.5em;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+
+  .status-row {
+    margin-top: 1em;
+  }
+
+  .visit-ctas {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-top: 2em;
+  }
+
+  @media (max-width: 900px) {
+    .visit-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

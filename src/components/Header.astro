@@ -1,0 +1,221 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  page?: "home" | "gallery";
+}
+const { page = "home" } = Astro.props;
+const homeHref = (anchor: string) => (page === "home" ? anchor : `/${anchor}`);
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="wordmark" aria-label="TRADER home">
+      TRADER
+      <span class="wordmark-sub">Gallery</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href={homeHref("#story")}>Story</a>
+      <a href={homeHref("#menu")}>Menu</a>
+      <a href="/gallery" aria-current={page === "gallery" ? "page" : undefined}>Gallery</a>
+      <a href={homeHref("#visit")}>Visit</a>
+    </nav>
+
+    <div class="actions">
+      <a class="btn btn-primary btn-visit" href={homeHref("#visit")}>Plan your visit</a>
+      <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" data-menu-toggle>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+    <a href={homeHref("#story")}>Story</a>
+    <a href={homeHref("#menu")}>Menu</a>
+    <a href="/gallery">Gallery</a>
+    <a href={homeHref("#visit")}>Visit</a>
+    <a class="btn btn-primary" href={homeHref("#visit")}>Plan your visit</a>
+    <a class="ig-link" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(244, 239, 230, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.1em;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+  }
+
+  .wordmark-sub {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 700;
+  }
+
+  .nav {
+    display: flex;
+    gap: 2.1em;
+  }
+
+  .nav a {
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    position: relative;
+    padding-block: 0.2em;
+  }
+
+  .nav a:hover,
+  .nav a[aria-current="page"] {
+    color: var(--ink);
+  }
+
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background: var(--sage-dark);
+    transition: width 0.25s var(--ease);
+  }
+
+  .nav a:hover::after {
+    width: 100%;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .btn-visit {
+    padding: 0.65em 1.3em;
+    font-size: 0.85rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 2.4em;
+    height: 2.4em;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .menu-toggle span,
+  .menu-toggle span::before,
+  .menu-toggle span::after {
+    content: "";
+    position: absolute;
+    left: 26%;
+    right: 26%;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  }
+
+  .menu-toggle span {
+    top: 50%;
+  }
+
+  .menu-toggle span::before {
+    top: -6px;
+  }
+
+  .menu-toggle span::after {
+    top: 6px;
+  }
+
+  .menu-toggle[aria-expanded="true"] span {
+    background: transparent;
+  }
+
+  .menu-toggle[aria-expanded="true"] span::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded="true"] span::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 1.3em;
+    padding: 1.5em var(--gutter) 2.2em;
+    border-top: 1px solid var(--line);
+  }
+
+  .mobile-nav a {
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .mobile-nav .ig-link {
+    color: var(--sage-dark);
+    font-weight: 600;
+  }
+
+  .mobile-nav.is-open {
+    display: flex;
+  }
+
+  @media (max-width: 780px) {
+    .nav,
+    .btn-visit {
+      display: none;
+    }
+    .menu-toggle {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const nav = document.querySelector<HTMLElement>("[data-mobile-nav]");
+  toggle?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(!!isOpen));
+  });
+  nav?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      nav.classList.remove("is-open");
+      toggle?.setAttribute("aria-expanded", "false");
+    })
+  );
+</script>

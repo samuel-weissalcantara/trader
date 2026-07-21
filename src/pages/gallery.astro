@@ -1,0 +1,463 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Frame from "../components/Frame.astro";
+import { galleryImages, exhibition, site } from "../data/site";
+
+const categories = ["All", ...new Set(galleryImages.map((i) => i.category))];
+---
+
+<Base title={`Gallery — ${site.fullName}`} page="gallery" description="Rotating exhibitions and café moments from TRADER Gallery, Hamburg.">
+  <Header slot="header" page="gallery" />
+
+  <section class="section gallery-hero">
+    <div class="wrap">
+      <p class="eyebrow">The gallery</p>
+      <h1>Art on the walls, always for sale.</h1>
+      <p class="lede">TRADER hangs new work every few weeks — small paintings, found-object pieces, prints — alongside the vintage furniture and design objects already in the room. Below: the current exhibition, and moments from the café itself.</p>
+    </div>
+  </section>
+
+  <section class="section exhibition">
+    <div class="wrap exhibition-grid">
+      <div class="ex-media reveal" data-reveal>
+        <Frame src="placeholder:art:4" alt={`${exhibition.title} by ${exhibition.artist}, exhibition view`} ratio="4 / 5" eager />
+      </div>
+      <div class="ex-copy reveal" data-reveal>
+        <p class="eyebrow">{exhibition.eyebrow}</p>
+        <h2>{exhibition.title}</h2>
+        <p class="artist">{exhibition.artist} · {exhibition.dates}</p>
+        <p>{exhibition.description}</p>
+
+        <ul class="works">
+          {exhibition.works.map((w) => (
+            <li>
+              <div>
+                <span class="w-title">{w.title}</span>
+                <span class="w-medium">{w.medium}</span>
+              </div>
+              <span class="w-price">{w.price}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a class="btn btn-primary" href={`mailto:${exhibition.enquireEmail}`}>Enquire about a piece</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section mood">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <p class="eyebrow">Café moments</p>
+        <h2>Space, coffee, people.</h2>
+      </div>
+
+      <div class="filters reveal" data-reveal role="group" aria-label="Filter gallery by category">
+        {categories.map((cat, i) => (
+          <button type="button" class="filter-chip" data-filter={cat} aria-pressed={i === 0 ? "true" : "false"}>
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <div class="grid" data-gallery-grid role="list">
+        {galleryImages.map((img, i) => (
+          <button
+            type="button"
+            class="cell reveal"
+            data-reveal
+            data-category={img.category}
+            data-index={i}
+            role="listitem"
+            aria-label={`Open ${img.title}`}
+          >
+            <Frame src={img.src} alt={img.alt} ratio="1 / 1" />
+            <span class="cell-overlay" aria-hidden="true">
+              <span class="cell-title">{img.title}</span>
+              <span class="cell-cat">{img.category}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" data-lightbox hidden>
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+      <button type="button" class="lb-close" data-lightbox-close aria-label="Close">✕</button>
+      <button type="button" class="lb-nav lb-prev" data-lightbox-prev aria-label="Previous image">‹</button>
+      <button type="button" class="lb-nav lb-next" data-lightbox-next aria-label="Next image">›</button>
+      <div class="lb-media" data-lightbox-media></div>
+      <div class="lb-info">
+        <p id="lightbox-title" class="lb-title" data-lightbox-title></p>
+        <p class="lb-cat" data-lightbox-cat></p>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .gallery-hero h1 {
+    max-width: 20ch;
+  }
+  .lede {
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+
+  .exhibition-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .ex-copy .artist {
+    color: var(--sage-dark);
+    font-weight: 600;
+    margin-top: -0.4em;
+  }
+
+  .works {
+    list-style: none;
+    margin: 1.4em 0 1.8em;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .works li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    padding-block: 0.8em;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .w-title {
+    display: block;
+    font-weight: 600;
+  }
+
+  .w-medium {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .w-price {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .filter-chip {
+    border: 1px solid var(--line);
+    background: transparent;
+    padding: 0.5em 1.2em;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.2s var(--ease);
+  }
+
+  .filter-chip:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .filter-chip[aria-pressed="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+  }
+
+  .cell {
+    position: relative;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .cell:hover {
+    transform: translateY(-4px);
+  }
+
+  .cell.is-hidden {
+    display: none;
+  }
+
+  .cell-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    background: rgba(33, 28, 22, 0);
+    color: var(--paper);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease), background 0.3s var(--ease);
+    text-align: center;
+    padding: 1em;
+  }
+
+  .cell:hover .cell-overlay,
+  .cell:focus-visible .cell-overlay {
+    opacity: 1;
+    background: rgba(33, 28, 22, 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .cell-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  .cell-cat {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox[hidden] {
+    display: none;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 12, 9, 0.9);
+  }
+
+  .lightbox-dialog {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 720px);
+    width: 100%;
+    max-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lb-media {
+    border-radius: 6px;
+    overflow: hidden;
+    max-height: calc(100vh - 8rem);
+  }
+
+  .lb-media :global(.frame) {
+    aspect-ratio: 4 / 5;
+    max-height: calc(100vh - 8rem);
+    width: auto;
+    margin-inline: auto;
+  }
+
+  .lb-info {
+    color: var(--paper);
+    text-align: center;
+    margin-top: 1em;
+  }
+
+  .lb-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin: 0 0 0.2em;
+  }
+
+  .lb-cat {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b9c39e;
+  }
+
+  /* Fixed to the viewport (not the dialog) so they stay reachable
+     regardless of how tall the dialog content is. */
+  .lb-close,
+  .lb-nav {
+    position: fixed;
+    background: rgba(244, 239, 230, 0.08);
+    border: 1px solid rgba(244, 239, 230, 0.25);
+    color: var(--paper);
+    border-radius: 50%;
+    width: 2.6em;
+    height: 2.6em;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  .lb-close:hover,
+  .lb-nav:hover {
+    background: rgba(244, 239, 230, 0.18);
+  }
+
+  .lb-close {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .lb-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+  }
+
+  .lb-prev {
+    left: 1.5rem;
+  }
+
+  .lb-next {
+    right: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .exhibition-grid {
+      grid-template-columns: 1fr;
+    }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .lb-nav,
+    .lb-close {
+      width: 2.2em;
+      height: 2.2em;
+      font-size: 1rem;
+    }
+    .lb-close {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+    .lb-prev {
+      left: 0.5rem;
+    }
+    .lb-next {
+      right: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.querySelector<HTMLElement>("[data-gallery-grid]");
+  const cells = Array.from(document.querySelectorAll<HTMLButtonElement>(".cell"));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".filter-chip"));
+
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
+  const media = document.querySelector<HTMLElement>("[data-lightbox-media]");
+  const titleEl = document.querySelector<HTMLElement>("[data-lightbox-title]");
+  const catEl = document.querySelector<HTMLElement>("[data-lightbox-cat]");
+  const closeBtns = document.querySelectorAll<HTMLElement>("[data-lightbox-close]");
+  const prevBtn = document.querySelector<HTMLElement>("[data-lightbox-prev]");
+  const nextBtn = document.querySelector<HTMLElement>("[data-lightbox-next]");
+
+  let currentFilter = "All";
+  let lastFocused: HTMLElement | null = null;
+
+  function visibleCells() {
+    return cells.filter((c) => !c.classList.contains("is-hidden"));
+  }
+
+  function applyFilter(filter: string) {
+    currentFilter = filter;
+    for (const cell of cells) {
+      const match = filter === "All" || cell.dataset.category === filter;
+      cell.classList.toggle("is-hidden", !match);
+    }
+    chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.filter === filter)));
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => applyFilter(chip.dataset.filter ?? "All"));
+  });
+
+  function openLightboxFor(cell: HTMLButtonElement) {
+    if (!media || !titleEl || !catEl || !lightbox) return;
+    const frame = cell.querySelector(".frame");
+    const title = cell.querySelector(".cell-title")?.textContent ?? "";
+    const cat = cell.querySelector(".cell-cat")?.textContent ?? "";
+
+    media.innerHTML = "";
+    if (frame) media.appendChild(frame.cloneNode(true));
+    titleEl.textContent = title;
+    catEl.textContent = cat;
+
+    lastFocused = document.activeElement as HTMLElement;
+    lightbox.hidden = false;
+    document.body.style.overflow = "hidden";
+    (closeBtns[0] as HTMLElement)?.focus();
+    lightbox.dataset.activeIndex = cell.dataset.index ?? "0";
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    document.body.style.overflow = "";
+    lastFocused?.focus();
+  }
+
+  function step(dir: 1 | -1) {
+    const vis = visibleCells();
+    if (!vis.length || !lightbox) return;
+    const currentIndex = lightbox.dataset.activeIndex;
+    let pos = vis.findIndex((c) => c.dataset.index === currentIndex);
+    if (pos === -1) pos = 0;
+    pos = (pos + dir + vis.length) % vis.length;
+    openLightboxFor(vis[pos]);
+  }
+
+  cells.forEach((cell) => cell.addEventListener("click", () => openLightboxFor(cell)));
+  closeBtns.forEach((btn) => btn.addEventListener("click", closeLightbox));
+  prevBtn?.addEventListener("click", () => step(-1));
+  nextBtn?.addEventListener("click", () => step(1));
+
+  document.addEventListener("keydown", (e) => {
+    if (lightbox?.hidden) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+</script>

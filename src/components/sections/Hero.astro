@@ -1,0 +1,94 @@
+---
+import Frame from "../Frame.astro";
+import OpenStatus from "../OpenStatus.astro";
+import { site } from "../../data/site";
+---
+
+<section class="hero">
+  <div class="hero-media">
+    <Frame src="placeholder:space:4" alt="TRADER's front room, vintage furniture and morning light" ratio="16 / 12" eager />
+  </div>
+
+  <div class="wrap hero-content reveal" data-reveal>
+    <p class="eyebrow">Coffee · Matcha · Art — Hamburg Schanze</p>
+    <h1>{site.tagline}</h1>
+    <p class="hero-desc">{site.descriptor}</p>
+
+    <div class="hero-row">
+      <OpenStatus />
+      <span class="sep" aria-hidden="true"></span>
+      <span class="addr">{site.address.street}, {site.address.city}</span>
+    </div>
+
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">Plan your visit</a>
+      <a class="btn btn-outline" href="#menu">See the menu</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .hero-media {
+    margin-inline: var(--gutter);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    margin-top: clamp(-4rem, -8vw, -2.5rem);
+    position: relative;
+    background: var(--paper);
+    padding: clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3.5rem);
+    max-width: 44rem;
+    margin-left: var(--gutter);
+    border-radius: 6px;
+    box-shadow: 0 30px 60px -30px rgba(33, 28, 22, 0.25);
+  }
+
+  .hero-content h1 {
+    margin-top: 0.2em;
+  }
+
+  .hero-desc {
+    max-width: 42ch;
+    font-size: 1.05rem;
+  }
+
+  .hero-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    margin-block: 1.4em 1.8em;
+    flex-wrap: wrap;
+  }
+
+  .sep {
+    width: 1px;
+    height: 1.1em;
+    background: var(--line);
+  }
+
+  .addr {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 780px) {
+    .hero-content {
+      margin-inline: var(--gutter);
+      margin-top: -2.5rem;
+      max-width: none;
+    }
+  }
+</style>

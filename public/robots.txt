@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trader-gallery.example/sitemap.xml

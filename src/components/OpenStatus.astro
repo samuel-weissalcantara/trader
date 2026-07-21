@@ -1,0 +1,93 @@
+---
+// Small client island: computes live open/closed state from the hours table.
+// Renders a sensible static fallback (in case JS is disabled) then hydrates.
+---
+
+<span class="open-status" data-open-status>
+  <span class="dot" aria-hidden="true"></span>
+  <span data-status-text>Checking today's hours…</span>
+</span>
+
+<style>
+  .open-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .dot {
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  .open-status[data-state="open"] .dot {
+    background: var(--sage);
+    box-shadow: 0 0 0 3px rgba(124, 138, 90, 0.25);
+  }
+
+  .open-status[data-state="closed"] .dot {
+    background: var(--clay);
+  }
+</style>
+
+<script>
+  const HOURS: Record<number, { open: string; close: string } | null> = {
+    0: { open: "09:00", close: "18:00" },
+    1: null,
+    2: { open: "08:00", close: "18:00" },
+    3: { open: "08:00", close: "18:00" },
+    4: { open: "08:00", close: "18:00" },
+    5: { open: "08:00", close: "18:00" },
+    6: { open: "09:00", close: "18:00" },
+  };
+
+  function toMinutes(t: string) {
+    const [h, m] = t.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  function update(el: HTMLElement) {
+    const textEl = el.querySelector<HTMLElement>("[data-status-text]");
+    if (!textEl) return;
+
+    const now = new Date();
+    const today = HOURS[now.getDay()];
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+
+    if (today && nowMin >= toMinutes(today.open) && nowMin < toMinutes(today.close)) {
+      el.dataset.state = "open";
+      textEl.textContent = `Open now — until ${today.close}`;
+    } else {
+      el.dataset.state = "closed";
+      // find next opening day
+      let text = "Closed now";
+      for (let i = 1; i <= 7; i++) {
+        const day = (now.getDay() + i) % 7;
+        const slot = HOURS[day];
+        if (slot) {
+          const dayName = i === 1 && day !== now.getDay()
+            ? new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(
+                new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
+              )
+            : new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(
+                new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
+              );
+          text = `Closed — opens ${dayName} ${slot.open}`;
+          break;
+        }
+      }
+      textEl.textContent = text;
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-open-status]").forEach((el) => {
+    update(el);
+    setInterval(() => update(el), 60_000);
+  });
+</script>

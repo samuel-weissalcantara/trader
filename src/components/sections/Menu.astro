@@ -1,0 +1,117 @@
+---
+import Marquee from "../Marquee.astro";
+import { menu } from "../../data/site";
+
+const groups = [
+  { title: "Coffee", items: menu.coffee },
+  { title: "Matcha", items: menu.matcha },
+  { title: "Pastries", items: menu.pastries },
+];
+---
+
+<section id="menu" class="section-tight">
+  <Marquee />
+
+  <div class="wrap section">
+    <div class="section-head reveal" data-reveal>
+      <p class="eyebrow">On the counter</p>
+      <h2>Slow coffee, ceremonial matcha.</h2>
+      <p>Südhang beans from Tübingen, whisked-to-order Goko matcha, and pastries baked each morning. Full menu in-house — prices in €.</p>
+    </div>
+
+    <div class="menu-grid">
+      {groups.map((group) => (
+        <div class="menu-col reveal" data-reveal>
+          <h3>{group.title}</h3>
+          <ul>
+            {group.items.map((item) => (
+              <li class:list={["menu-item", { signature: "signature" in item && item.signature }]}>
+                <div class="menu-item-head">
+                  <span class="name">
+                    {item.name}
+                    {"signature" in item && item.signature && <span class="badge">Signature</span>}
+                  </span>
+                  <span class="price">{item.price}</span>
+                </div>
+                <p class="desc">{item.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+
+  .menu-col h3 {
+    margin-bottom: 0.9em;
+    padding-bottom: 0.6em;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .menu-item {
+    padding-block: 1em;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .menu-item:last-child {
+    border-bottom: none;
+  }
+
+  .menu-item.signature {
+    background: linear-gradient(90deg, rgba(124, 138, 90, 0.09), transparent);
+    margin-inline: -0.8em;
+    padding-inline: 0.8em;
+    border-radius: 4px;
+  }
+
+  .menu-item-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    align-items: baseline;
+  }
+
+  .name {
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .badge {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--sage-dark);
+    color: var(--paper);
+    padding: 0.25em 0.55em;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .price {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .desc {
+    margin: 0.3em 0 0;
+    font-size: 0.88rem;
+  }
+
+  @media (max-width: 900px) {
+    .menu-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>

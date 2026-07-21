@@ -1,0 +1,61 @@
+---
+import { marqueeItems } from "../data/site";
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {[...marqueeItems, ...marqueeItems].map((item) => (
+      <span class="marquee-item">
+        {item}
+        <span class="dot">·</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: var(--paper-dim);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 32s linear infinite;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--ink-soft);
+    padding-inline: 1.6em;
+    padding-block: 0.9em;
+    white-space: nowrap;
+  }
+
+  .dot {
+    color: var(--sage);
+    font-style: normal;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>
