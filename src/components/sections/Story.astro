@@ -1,6 +1,12 @@
 ---
 import Frame from "../Frame.astro";
-import { story } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang).story;
 ---
 
 <section id="story" class="section story">
@@ -13,12 +19,12 @@ import { story } from "../../data/site";
     </div>
 
     <div class="story-copy reveal" data-reveal>
-      <p class="eyebrow">{story.eyebrow}</p>
-      <h2>{story.heading}</h2>
-      {story.body.map((p) => <p>{p}</p>)}
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.heading}</h2>
+      {t.body.map((p) => <p>{p}</p>)}
 
       <dl class="stats">
-        {story.stats.map((s) => (
+        {t.stats.map((s) => (
           <div class="stat">
             <dt>{s.value}</dt>
             <dd>{s.label}</dd>

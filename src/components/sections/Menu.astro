@@ -1,22 +1,33 @@
 ---
 import Marquee from "../Marquee.astro";
-import { menu } from "../../data/site";
+import Frame from "../Frame.astro";
+import { menuPrices, matchaSignatureIndex } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang).menu;
 
 const groups = [
-  { title: "Coffee", items: menu.coffee },
-  { title: "Matcha", items: menu.matcha },
-  { title: "Pastries", items: menu.pastries },
+  { title: t.groupTitles.coffee, items: t.coffee.map((item, i) => ({ ...item, price: menuPrices.coffee[i] })) },
+  {
+    title: t.groupTitles.matcha,
+    items: t.matcha.map((item, i) => ({ ...item, price: menuPrices.matcha[i], signature: i === matchaSignatureIndex })),
+  },
+  { title: t.groupTitles.pastries, items: t.pastries.map((item, i) => ({ ...item, price: menuPrices.pastries[i] })) },
 ];
 ---
 
 <section id="menu" class="section-tight">
-  <Marquee />
+  <Marquee lang={lang} />
 
   <div class="wrap section">
     <div class="section-head reveal" data-reveal>
-      <p class="eyebrow">On the counter</p>
-      <h2>Slow coffee, ceremonial matcha.</h2>
-      <p>Südhang beans from Tübingen, whisked-to-order Goko matcha, and pastries baked each morning. Full menu in-house — prices in €.</p>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.heading}</h2>
+      <p>{t.description}</p>
     </div>
 
     <div class="menu-grid">
@@ -26,14 +37,19 @@ const groups = [
           <ul>
             {group.items.map((item) => (
               <li class:list={["menu-item", { signature: "signature" in item && item.signature }]}>
-                <div class="menu-item-head">
-                  <span class="name">
-                    {item.name}
-                    {"signature" in item && item.signature && <span class="badge">Signature</span>}
-                  </span>
-                  <span class="price">{item.price}</span>
+                {"signature" in item && item.signature && (
+                  <Frame class="signature-photo" src="placeholder:coffee:2" alt={item.name} ratio="1 / 1" />
+                )}
+                <div class="menu-item-body">
+                  <div class="menu-item-head">
+                    <span class="name">
+                      {item.name}
+                      {"signature" in item && item.signature && <span class="badge">{t.signatureBadge}</span>}
+                    </span>
+                    <span class="price">{item.price}</span>
+                  </div>
+                  <p class="desc">{item.desc}</p>
                 </div>
-                <p class="desc">{item.desc}</p>
               </li>
             ))}
           </ul>
@@ -70,6 +86,20 @@ const groups = [
     margin-inline: -0.8em;
     padding-inline: 0.8em;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  :global(.signature-photo) {
+    width: 4.2em;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+
+  .menu-item-body {
+    flex: 1;
+    min-width: 0;
   }
 
   .menu-item-head {

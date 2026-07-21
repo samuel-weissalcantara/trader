@@ -1,0 +1,116 @@
+---
+import { site } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang).testimonials;
+---
+
+<section class="section-tight testimonials">
+  <div class="wrap">
+    <div class="head reveal" data-reveal>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.heading}</h2>
+      <p class="rating">
+        <span class="stars">★ {site.rating.value}</span>
+        <span class="sep" aria-hidden="true"></span>
+        {t.ratingSuffix}
+      </p>
+    </div>
+
+    <div class="grid reveal" data-reveal>
+      {t.quotes.map((q) => (
+        <figure class="card">
+          <blockquote>“{q.quote}”</blockquote>
+          <figcaption>
+            <span class="name">{q.name}</span>
+            <span class="meta">{q.meta}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background: var(--paper-dim);
+  }
+
+  .head {
+    max-width: 46ch;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .stars {
+    font-weight: 700;
+    color: var(--sage-dark);
+  }
+
+  .sep {
+    width: 1px;
+    height: 1em;
+    background: var(--line);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .card {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.6em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+  }
+
+  blockquote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    margin-top: auto;
+  }
+
+  .name {
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .meta {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

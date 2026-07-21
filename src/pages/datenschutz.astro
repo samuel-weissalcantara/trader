@@ -1,0 +1,92 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+import "../styles/legal.css";
+---
+
+<Base
+  title={`Datenschutz — ${site.fullName}`}
+  description="Datenschutzerklärung von TRADER Gallery, Hamburg."
+  lang="de"
+  path="/datenschutz"
+>
+  <Header slot="header" lang="de" altPath="/datenschutz" />
+
+  <section class="section">
+    <div class="wrap legal">
+      <p class="eyebrow">Rechtliches</p>
+      <h1>Datenschutzerklärung</h1>
+
+      <h2>1. Verantwortlicher</h2>
+      <p>
+        Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br />
+        TRADER Gallery, vertreten durch Vincent von Thien<br />
+        {site.address.street}, {site.address.postal} {site.address.city}<br />
+        E-Mail: <a href={`mailto:${"gallery@trader-hamburg.example"}`}>gallery@trader-hamburg.example</a>
+      </p>
+      <p class="placeholder">
+        <strong>Platzhalter:</strong> Bitte reale Kontaktdaten ergänzen, bevor die Seite veröffentlicht wird.
+      </p>
+
+      <h2>2. Hosting</h2>
+      <p>
+        Diese Website wird bei einem externen Dienstleister gehostet. Die personenbezogenen Daten, die auf
+        dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert.
+      </p>
+      <p class="placeholder">
+        <strong>Platzhalter:</strong> Name und Anschrift des Hosting-Anbieters hier ergänzen, sobald die Website
+        produktiv geschaltet ist.
+      </p>
+
+      <h2>3. Erhebung und Speicherung personenbezogener Daten</h2>
+      <p>
+        Beim Aufrufen dieser Website erfasst unser Hosting-Anbieter automatisch Informationen in sogenannten
+        Server-Log-Dateien, die Ihr Browser automatisch übermittelt (z. B. Browsertyp, verwendetes
+        Betriebssystem, Referrer-URL, Datum und Uhrzeit des Zugriffs). Diese Daten sind nicht bestimmten
+        Personen zuordenbar und werden ausschließlich zur Sicherstellung eines störungsfreien Betriebs der
+        Website sowie zur Verbesserung unseres Angebots ausgewertet.
+      </p>
+
+      <h2>4. Cookies und Tracking</h2>
+      <p>
+        Diese Website verwendet derzeit keine Cookies und keine Tracking- oder Analyse-Tools. Sollte sich dies
+        ändern, wird diese Datenschutzerklärung entsprechend aktualisiert und, sofern erforderlich, vorab Ihre
+        Einwilligung eingeholt.
+      </p>
+
+      <h2>5. Kontaktaufnahme</h2>
+      <p>
+        Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben zwecks Bearbeitung der Anfrage und für den
+        Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.
+      </p>
+
+      <h2>6. Ihre Rechte</h2>
+      <p>Sie haben jederzeit das Recht:</p>
+      <ul>
+        <li>Auskunft über die von uns verarbeiteten personenbezogenen Daten zu verlangen (Art. 15 DSGVO),</li>
+        <li>die Berichtigung unrichtiger Daten zu verlangen (Art. 16 DSGVO),</li>
+        <li>die Löschung Ihrer bei uns gespeicherten Daten zu verlangen (Art. 17 DSGVO),</li>
+        <li>die Einschränkung der Datenverarbeitung zu verlangen (Art. 18 DSGVO),</li>
+        <li>Widerspruch gegen die Verarbeitung Ihrer Daten einzulegen (Art. 21 DSGVO), und</li>
+        <li>Datenübertragbarkeit zu verlangen (Art. 20 DSGVO).</li>
+      </ul>
+      <p>
+        Sie haben zudem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer
+        personenbezogenen Daten durch uns zu beschweren. Zuständig ist der
+        <a href="https://datenschutz-hamburg.de/" target="_blank" rel="noopener">
+          Hamburgische Beauftragte für Datenschutz und Informationsfreiheit
+        </a>.
+      </p>
+
+      <h2>7. Änderung dieser Datenschutzerklärung</h2>
+      <p>
+        Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen
+        Anforderungen entspricht oder um Änderungen unserer Leistungen umzusetzen.
+      </p>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="de" />
+</Base>

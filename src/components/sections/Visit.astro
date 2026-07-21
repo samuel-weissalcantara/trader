@@ -1,7 +1,14 @@
 ---
 import Frame from "../Frame.astro";
 import OpenStatus from "../OpenStatus.astro";
-import { site, hoursDisplay } from "../../data/site";
+import { site } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang);
 ---
 
 <section id="visit" class="section visit">
@@ -11,27 +18,27 @@ import { site, hoursDisplay } from "../../data/site";
     </div>
 
     <div class="visit-copy reveal" data-reveal>
-      <p class="eyebrow">Visit</p>
-      <h2>Find us in the Schanze.</h2>
+      <p class="eyebrow">{t.visit.eyebrow}</p>
+      <h2>{t.visit.heading}</h2>
 
       <div class="visit-block">
-        <h3>Address</h3>
+        <h3>{t.visit.addressTitle}</h3>
         <p>{site.address.street}<br />{site.address.postal} {site.address.city}</p>
-        <p class="hint">2 min from Sternschanze S-Bahn / U-Bahn.</p>
+        <p class="hint">{t.visit.transitHint}</p>
       </div>
 
       <div class="visit-block">
-        <h3>Hours</h3>
+        <h3>{t.visit.hoursTitle}</h3>
         <ul class="hours-list">
-          {hoursDisplay.map((h) => (
+          {t.visit.hoursDisplay.map((h) => (
             <li><span>{h.label}</span><span>{h.value}</span></li>
           ))}
         </ul>
-        <div class="status-row"><OpenStatus /></div>
+        <div class="status-row"><OpenStatus lang={lang} /></div>
       </div>
 
       <div class="visit-ctas">
-        <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">Get directions</a>
+        <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.visit.ctaDirections}</a>
         <a class="btn btn-outline" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
       </div>
     </div>

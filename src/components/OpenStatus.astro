@@ -1,11 +1,18 @@
 ---
 // Small client island: computes live open/closed state from the hours table.
 // Renders a sensible static fallback (in case JS is disabled) then hydrates.
+import { getContent, type Lang } from "../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang);
 ---
 
-<span class="open-status" data-open-status>
+<span class="open-status" data-open-status data-lang={lang}>
   <span class="dot" aria-hidden="true"></span>
-  <span data-status-text>Checking today's hours…</span>
+  <span data-status-text>{t.openStatus.checking}</span>
 </span>
 
 <style>
@@ -47,6 +54,19 @@
     6: { open: "09:00", close: "18:00" },
   };
 
+  const MESSAGES: Record<string, { openUntil: (t: string) => string; closedOpens: (d: string, t: string) => string; intlLocale: string }> = {
+    de: {
+      openUntil: (time) => `Jetzt geöffnet — bis ${time}`,
+      closedOpens: (day, time) => `Geschlossen — öffnet ${day} um ${time}`,
+      intlLocale: "de-DE",
+    },
+    en: {
+      openUntil: (time) => `Open now — until ${time}`,
+      closedOpens: (day, time) => `Closed — opens ${day} ${time}`,
+      intlLocale: "en-GB",
+    },
+  };
+
   function toMinutes(t: string) {
     const [h, m] = t.split(":").map(Number);
     return h * 60 + m;
@@ -55,6 +75,8 @@
   function update(el: HTMLElement) {
     const textEl = el.querySelector<HTMLElement>("[data-status-text]");
     if (!textEl) return;
+    const lang = el.dataset.lang === "en" ? "en" : "de";
+    const msg = MESSAGES[lang];
 
     const now = new Date();
     const today = HOURS[now.getDay()];
@@ -62,23 +84,18 @@
 
     if (today && nowMin >= toMinutes(today.open) && nowMin < toMinutes(today.close)) {
       el.dataset.state = "open";
-      textEl.textContent = `Open now — until ${today.close}`;
+      textEl.textContent = msg.openUntil(today.close);
     } else {
       el.dataset.state = "closed";
-      // find next opening day
-      let text = "Closed now";
+      let text = "";
       for (let i = 1; i <= 7; i++) {
         const day = (now.getDay() + i) % 7;
         const slot = HOURS[day];
         if (slot) {
-          const dayName = i === 1 && day !== now.getDay()
-            ? new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(
-                new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
-              )
-            : new Intl.DateTimeFormat("en-GB", { weekday: "long" }).format(
-                new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
-              );
-          text = `Closed — opens ${dayName} ${slot.open}`;
+          const dayName = new Intl.DateTimeFormat(msg.intlLocale, { weekday: "long" }).format(
+            new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
+          );
+          text = msg.closedOpens(dayName, slot.open);
           break;
         }
       }

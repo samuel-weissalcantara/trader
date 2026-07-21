@@ -1,33 +1,43 @@
 ---
 import Frame from "../Frame.astro";
 import { galleryImages, exhibition } from "../../data/site";
+import { getContent, localePath, type Lang } from "../../data/i18n";
 
-const preview = galleryImages.slice(0, 4);
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang);
+const preview = galleryImages.slice(0, 4).map((img) => {
+  const text = t.galleryPage.images.find((i) => i.id === img.id)!;
+  return { ...img, ...text, categoryLabel: t.galleryPage.categories[img.category] };
+});
+const galleryHref = localePath(lang, "/gallery");
 ---
 
 <section class="section-tight gallery-teaser">
   <div class="wrap">
     <div class="teaser-head reveal" data-reveal>
       <div>
-        <p class="eyebrow">The gallery</p>
-        <h2>Café by day, gallery always.</h2>
+        <p class="eyebrow">{t.galleryTeaser.eyebrow}</p>
+        <h2>{t.galleryTeaser.heading}</h2>
       </div>
-      <a class="btn btn-outline" href="/gallery">View full gallery →</a>
+      <a class="btn btn-outline" href={galleryHref}>{t.galleryTeaser.viewFull}</a>
     </div>
 
     <div class="teaser-grid reveal" data-reveal>
       {preview.map((img, i) => (
-        <a href="/gallery" class={`teaser-cell cell-${i}`}>
-          <Frame src={img.src} alt={img.alt} ratio="1 / 1" label={img.category} />
+        <a href={galleryHref} class={`teaser-cell cell-${i}`}>
+          <Frame src={img.src} alt={img.alt} ratio="1 / 1" label={img.categoryLabel} />
         </a>
       ))}
 
-      <a href="/gallery" class="exhibition-card">
-        <p class="eyebrow">{exhibition.eyebrow}</p>
+      <a href={galleryHref} class="exhibition-card">
+        <p class="eyebrow">{t.galleryPage.exhibitionEyebrow}</p>
         <h3>{exhibition.title}</h3>
         <p class="artist">{exhibition.artist}</p>
-        <p class="dates">{exhibition.dates}</p>
-        <span class="link">See the exhibition →</span>
+        <p class="dates">{t.galleryPage.exhibitionDatesLabel}</p>
+        <span class="link">{t.galleryTeaser.seeExhibition}</span>
       </a>
     </div>
   </div>

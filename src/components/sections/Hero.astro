@@ -2,6 +2,13 @@
 import Frame from "../Frame.astro";
 import OpenStatus from "../OpenStatus.astro";
 import { site } from "../../data/site";
+import { getContent, type Lang } from "../../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getContent(lang);
 ---
 
 <section class="hero">
@@ -10,19 +17,19 @@ import { site } from "../../data/site";
   </div>
 
   <div class="wrap hero-content reveal" data-reveal>
-    <p class="eyebrow">Coffee · Matcha · Art — Hamburg Schanze</p>
-    <h1>{site.tagline}</h1>
-    <p class="hero-desc">{site.descriptor}</p>
+    <p class="eyebrow">{t.hero.eyebrow}</p>
+    <h1>{t.hero.tagline}</h1>
+    <p class="hero-desc">{t.hero.descriptor}</p>
 
     <div class="hero-row">
-      <OpenStatus />
+      <OpenStatus lang={lang} />
       <span class="sep" aria-hidden="true"></span>
       <span class="addr">{site.address.street}, {site.address.city}</span>
     </div>
 
     <div class="hero-ctas">
-      <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">Plan your visit</a>
-      <a class="btn btn-outline" href="#menu">See the menu</a>
+      <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.hero.ctaVisit}</a>
+      <a class="btn btn-outline" href="#menu">{t.hero.ctaMenu}</a>
     </div>
   </div>
 </section>

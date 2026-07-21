@@ -1,10 +1,16 @@
 ---
-import { marqueeItems } from "../data/site";
+import { getContent, type Lang } from "../data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const items = getContent(lang).marqueeItems;
 ---
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    {[...marqueeItems, ...marqueeItems].map((item) => (
+    {[...items, ...items].map((item) => (
       <span class="marquee-item">
         {item}
         <span class="dot">·</span>
