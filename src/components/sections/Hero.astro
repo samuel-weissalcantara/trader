@@ -1,5 +1,5 @@
 ---
-import Frame from "../Frame.astro";
+import HeroDisc from "../HeroDisc.astro";
 import OpenStatus from "../OpenStatus.astro";
 import { site } from "../../data/site";
 import { getContent, type Lang } from "../../data/i18n";
@@ -11,58 +11,74 @@ const { lang } = Astro.props;
 const t = getContent(lang);
 ---
 
-<section class="hero">
-  <div class="hero-media">
-    <Frame src="placeholder:space:4" alt="TRADER's front room, vintage furniture and morning light" ratio="16 / 12" eager />
-  </div>
+<section class="hero-stage" data-hero-stage>
+  <div class="hero-pin">
+    <div class="wrap hero-grid">
+      <div class="hero-disc-stage" aria-hidden="true">
+        <HeroDisc />
+      </div>
 
-  <div class="wrap hero-content reveal" data-reveal>
-    <p class="eyebrow">{t.hero.eyebrow}</p>
-    <h1>{t.hero.tagline}</h1>
-    <p class="hero-desc">{t.hero.descriptor}</p>
+      <div class="hero-copy">
+        <p class="eyebrow">{t.hero.eyebrow}</p>
+        <h1>{t.hero.tagline}</h1>
+        <p class="hero-desc">{t.hero.descriptor}</p>
 
-    <div class="hero-row">
-      <OpenStatus lang={lang} />
-      <span class="sep" aria-hidden="true"></span>
-      <span class="addr">{site.address.street}, {site.address.city}</span>
-    </div>
+        <div class="hero-row">
+          <OpenStatus lang={lang} />
+          <span class="sep" aria-hidden="true"></span>
+          <span class="addr">{site.address.street}, {site.address.city}</span>
+        </div>
 
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.hero.ctaVisit}</a>
-      <a class="btn btn-outline" href="#menu">{t.hero.ctaMenu}</a>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.hero.ctaVisit}</a>
+          <a class="btn btn-outline" href="#menu">{t.hero.ctaMenu}</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .hero {
+  .hero-stage {
     position: relative;
-    padding-top: clamp(2rem, 5vw, 3.5rem);
+    height: 160vh;
   }
 
-  .hero-media {
-    margin-inline: var(--gutter);
-    border-radius: 6px;
+  .hero-pin {
+    position: sticky;
+    top: var(--header-h, 81px);
+    height: calc(100vh - var(--header-h, 81px));
+    display: flex;
+    align-items: center;
     overflow: hidden;
   }
 
-  .hero-content {
-    margin-top: clamp(-4rem, -8vw, -2.5rem);
-    position: relative;
-    background: var(--paper);
-    padding: clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3.5rem);
-    max-width: 44rem;
-    margin-left: var(--gutter);
-    border-radius: 6px;
-    box-shadow: 0 30px 60px -30px rgba(33, 28, 22, 0.25);
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    width: 100%;
   }
 
-  .hero-content h1 {
-    margin-top: 0.2em;
+  .hero-disc-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-copy {
+    text-align: left;
+  }
+
+  .hero-copy h1 {
+    margin-top: 0.3em;
+    font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.75rem);
   }
 
   .hero-desc {
-    max-width: 42ch;
+    max-width: 40ch;
     font-size: 1.05rem;
   }
 
@@ -70,7 +86,7 @@ const t = getContent(lang);
     display: flex;
     align-items: center;
     gap: 0.9em;
-    margin-block: 1.4em 1.8em;
+    margin-block: 1.2em 1.6em;
     flex-wrap: wrap;
   }
 
@@ -91,11 +107,83 @@ const t = getContent(lang);
     flex-wrap: wrap;
   }
 
-  @media (max-width: 780px) {
-    .hero-content {
-      margin-inline: var(--gutter);
-      margin-top: -2.5rem;
-      max-width: none;
+  @media (max-width: 900px) {
+    .hero-stage {
+      height: 145vh;
+    }
+
+    .hero-pin {
+      align-items: flex-start;
+      padding-block: clamp(1rem, 4vw, 2rem);
+    }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .hero-disc-stage {
+      max-width: 220px;
+      margin-inline: auto;
+    }
+
+    .hero-copy {
+      text-align: center;
+    }
+
+    .eyebrow {
+      justify-content: center;
+    }
+
+    .hero-desc {
+      margin-inline: auto;
+    }
+
+    .hero-row,
+    .hero-ctas {
+      justify-content: center;
     }
   }
 </style>
+
+<script>
+  const stage = document.querySelector<HTMLElement>("[data-hero-stage]");
+  const disc = document.querySelector<HTMLElement>("[data-hero-disc]");
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function setHeaderHeight() {
+    if (header) {
+      document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    }
+  }
+  setHeaderHeight();
+  window.addEventListener("resize", setHeaderHeight, { passive: true });
+
+  if (stage && disc && !reduceMotion) {
+    let ticking = false;
+
+    function update() {
+      if (!stage || !disc) return;
+      const total = stage.offsetHeight - window.innerHeight;
+      const scrolled = -stage.getBoundingClientRect().top;
+      const progress = Math.min(Math.max(total > 0 ? scrolled / total : 0, 0), 1);
+
+      disc.style.setProperty("--disc-scale", String(1.35 - progress * 0.35));
+      disc.style.setProperty("--disc-rotate", `${progress * 40}deg`);
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+</script>

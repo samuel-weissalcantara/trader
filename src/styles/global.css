@@ -1,22 +1,23 @@
-@import "@fontsource-variable/fraunces/standard.css";
-@import "@fontsource-variable/fraunces/standard-italic.css";
-@import "@fontsource-variable/inter";
+@import "@fontsource/instrument-serif";
+@import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource-variable/hanken-grotesk";
 
 :root {
-  /* Palette */
-  --paper: #f4efe6;
-  --paper-dim: #ece4d4;
-  --ink: #211c16;
-  --ink-soft: #4a4239;
-  --sage: #7c8a5a;
-  --sage-dark: #5f6b43;
-  --clay: #b5714f;
-  --line: rgba(33, 28, 22, 0.14);
+  /* Palette — warm cream base, brown/tan accents (inspired by the TRADER
+     icon reference: dark brown + tan-orange on cream/white) */
+  --paper: #f5efe2;
+  --paper-dim: #ece0cc;
+  --ink: #241c12;
+  --ink-soft: #6b5c46;
+  --sage: #a8580f;
+  --sage-dark: #7a3f0a;
+  --clay: #bf5710;
+  --line: rgba(36, 28, 18, 0.14);
   --surface: #ffffff;
 
   /* Type */
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
-  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-body: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
 
   /* Scale */
   --step-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
@@ -79,8 +80,8 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.05;
+  font-weight: 400;
+  line-height: 1.02;
   margin: 0 0 0.5em;
   letter-spacing: -0.01em;
 }
