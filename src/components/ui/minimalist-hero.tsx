@@ -13,7 +13,9 @@ import { cn } from "@/lib/utils";
 // prefers-reduced-motion via useReducedMotion() below.
 
 interface MinimalistHeroProps {
+  eyebrow: string;
   mainText: string;
+  quotes: string[];
   readMoreLabel: string;
   readMoreHref: string;
   imageSrc: string;
@@ -29,7 +31,9 @@ interface MinimalistHeroProps {
 }
 
 export const MinimalistHero = ({
+  eyebrow,
   mainText,
+  quotes,
   readMoreLabel,
   readMoreHref,
   imageSrc,
@@ -58,41 +62,50 @@ export const MinimalistHero = ({
   const fx = (initial: object, delay = 0) =>
     reduceMotion
       ? { initial: animate, animate, transition: { duration: 0 } }
-      : { initial, animate, transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const } };
+      : { initial, animate, transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] as const } };
 
   return (
     <div
       className={cn(
-        "relative flex min-h-[calc(100svh-var(--header-h,81px))] w-full flex-col items-center justify-between overflow-hidden bg-background px-6 py-10 font-serif md:px-12 md:py-14",
+        "relative flex min-h-[calc(112svh-var(--header-h,81px))] w-full flex-col items-center justify-between overflow-hidden bg-background px-6 py-14 font-serif md:px-12 md:py-20",
         className
       )}
     >
       {/* Main content area */}
       <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center gap-10 md:grid-cols-3 md:gap-6">
         {/* Left blurb */}
-        <motion.div {...fx({ opacity: 0, y: 20 })} className="z-20 order-2 text-center md:order-1 md:text-left">
-          <p className="mx-auto max-w-xs font-mono text-xs leading-relaxed tracking-wide text-foreground-soft/80 md:mx-0">
+        <motion.div {...fx({ opacity: 0, y: 28 })} className="z-20 order-2 text-center md:order-1 md:text-left">
+          <p className="font-mono text-xs font-bold uppercase tracking-widest text-accent">{eyebrow}</p>
+          <p className="mx-auto mt-3 max-w-xs font-mono text-sm leading-relaxed tracking-wide text-foreground-soft md:mx-0">
             {mainText}
           </p>
           <a
             href={readMoreHref}
-            className="mt-4 inline-block font-mono text-xs font-bold uppercase tracking-widest text-foreground underline decoration-from-font underline-offset-4"
+            className="mt-4 inline-block font-mono text-sm font-bold uppercase tracking-widest text-foreground underline decoration-from-font underline-offset-4"
           >
             {readMoreLabel}
           </a>
+
+          <div className="mx-auto mt-8 max-w-xs space-y-3 border-l border-border pl-4 text-left md:mx-0">
+            {quotes.map((quote) => (
+              <p key={quote} className="font-serif text-base italic leading-snug text-foreground-soft">
+                “{quote}”
+              </p>
+            ))}
+          </div>
         </motion.div>
 
         {/* Center image with circle */}
         <div className="relative order-1 flex h-full items-center justify-center md:order-2">
           <motion.div
-            {...fx({ scale: 0.85, opacity: 0 }, 0.15)}
-            className="absolute z-0 h-[240px] w-[240px] rounded-full bg-foreground-soft/85 md:h-[340px] md:w-[340px] lg:h-[420px] lg:w-[420px]"
+            {...fx({ scale: 0.8, opacity: 0 }, 0.15)}
+            className="absolute z-0 h-[280px] w-[280px] rounded-full bg-foreground-soft/85 md:h-[380px] md:w-[380px] lg:h-[460px] lg:w-[460px]"
           />
           <motion.img
             src={imageSrc}
             alt={imageAlt}
-            className="relative z-10 h-auto w-52 rounded-sm object-cover shadow-2xl shadow-black/60 md:w-60 lg:w-72"
-            {...fx({ opacity: 0, y: 40 }, 0.3)}
+            className="relative z-10 h-auto w-64 rounded-sm object-cover shadow-2xl shadow-black/60 md:w-80 lg:w-96"
+            {...fx({ opacity: 0, y: 56 }, 0.3)}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.onerror = null;
@@ -103,10 +116,10 @@ export const MinimalistHero = ({
 
         {/* Right — big headline */}
         <motion.div
-          {...fx({ opacity: 0, y: 20 }, 0.45)}
+          {...fx({ opacity: 0, y: 28 }, 0.45)}
           className="z-20 order-3 flex items-center justify-center text-center md:justify-start md:text-left"
         >
-          <h1 className="font-serif text-6xl italic leading-[0.95] text-foreground md:text-7xl lg:text-8xl">
+          <h1 className="font-serif text-7xl italic leading-[0.95] text-foreground md:text-8xl lg:text-9xl">
             {overlayText.part1}
             <br />
             {overlayText.part2}
@@ -117,18 +130,18 @@ export const MinimalistHero = ({
       {/* Footer strip */}
       <footer className="z-30 flex w-full max-w-7xl items-center justify-between border-t border-border pt-6">
         <motion.a
-          {...fx({ opacity: 0, y: 20 }, 0.5)}
+          {...fx({ opacity: 0, y: 28 }, 0.5)}
           href={instagramHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-foreground-soft transition-colors hover:text-foreground"
+          className="flex items-center gap-2 font-mono text-sm uppercase tracking-widest text-foreground-soft transition-colors hover:text-foreground"
         >
           <AtSign className="h-4 w-4" aria-hidden="true" />
           {instagramHandle}
         </motion.a>
         <motion.div
-          {...fx({ opacity: 0, y: 20 }, 0.55)}
-          className="font-mono text-xs uppercase tracking-widest text-foreground-soft"
+          {...fx({ opacity: 0, y: 28 }, 0.55)}
+          className="font-mono text-sm uppercase tracking-widest text-foreground-soft"
         >
           {locationText}
         </motion.div>

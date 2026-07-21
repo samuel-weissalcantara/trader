@@ -33,6 +33,7 @@ export type Content = {
     overlayPart1: string;
     overlayPart2: string;
     blurb: string;
+    quotes: string[];
     readMore: string;
   };
   openStatus: {
@@ -113,7 +114,7 @@ const de: Content = {
   htmlLang: "de",
   nav: { story: "Geschichte", menu: "Speisekarte", gallery: "Galerie", visit: "Besuch", planVisit: "Besuch planen" },
   hero: {
-    eyebrow: "Kaffee · Matcha · Kunst — Hamburg Schanze",
+    eyebrow: "Kaffeekultur & Hörerlebnis",
     tagline: "Mehr als ein Café.",
     descriptor: "Spezialitätenkaffee, zeremonieller Matcha & wechselnde Kunst im Hamburger Schanzenviertel.",
     ctaVisit: "Besuch planen",
@@ -122,6 +123,7 @@ const de: Content = {
     overlayPart2: "ein café.",
     blurb:
       "Ein Raum für Spezialitätenkaffee, zeremoniellen Matcha und wechselnde Kunst — roh, ungeschönt, echt. Mitten im Schanzenviertel.",
+    quotes: ["Bitterer Kaffee, süße Momente.", "Kaffee befeuert Ambition. Und Ungeduld."],
     readMore: "Mehr erfahren",
   },
   openStatus: {
@@ -261,7 +263,7 @@ const en: Content = {
   htmlLang: "en",
   nav: { story: "Story", menu: "Menu", gallery: "Gallery", visit: "Visit", planVisit: "Plan your visit" },
   hero: {
-    eyebrow: "Coffee · Matcha · Art — Hamburg Schanze",
+    eyebrow: "Coffee culture & listening experience",
     tagline: "More than a café.",
     descriptor: "Specialty coffee, ceremonial matcha & rotating art in Hamburg's Schanze.",
     ctaVisit: "Plan your visit",
@@ -270,6 +272,7 @@ const en: Content = {
     overlayPart2: "a café.",
     blurb:
       "A room for specialty coffee, ceremonial matcha, and rotating art — raw, unpolished, real. Right in the middle of the Schanze.",
+    quotes: ["Bitter coffee, sweet moments.", "Coffee fuels ambition. And impatience."],
     readMore: "Read more",
   },
   openStatus: {

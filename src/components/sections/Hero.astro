@@ -13,7 +13,9 @@ const t = getContent(lang);
 <section class="hero-wrap">
   <MinimalistHero
     client:load
+    eyebrow={t.hero.eyebrow}
     mainText={t.hero.blurb}
+    quotes={t.hero.quotes}
     readMoreLabel={t.hero.readMore}
     readMoreHref="#story"
     imageSrc="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
@@ -29,6 +31,6 @@ const t = getContent(lang);
   .hero-wrap {
     /* var(--header-h) is set at runtime by Header.astro's script; falls
        back to a sensible default so there's no layout jump before it runs. */
-    min-height: calc(100svh - var(--header-h, 81px));
+    min-height: calc(112svh - var(--header-h, 81px));
   }
 </style>

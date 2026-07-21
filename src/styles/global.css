@@ -23,7 +23,7 @@
   --surface: #402f23; /* Dark Coffee — raised card bg */
   --ink: #e9dccb; /* derived light cream — headings / primary text */
   --ink-soft: #bca089; /* Khaki Beige (CSV) — secondary/body text */
-  --sage: #a08a66; /* lightened accent — eyebrow text, status dot, stat numbers */
+  --sage: #c99b6b; /* brightened accent — verified ≥5.5:1 vs both --paper and --paper-dim (was ~3.9:1) */
   --sage-dark: #502614; /* Dark Walnut (CSV) — badge/button-hover backgrounds */
   --clay: #8a6f4f; /* lightened Coffee Bean 2 — secondary accent (legal placeholders, etc.) */
   --line: rgba(233, 220, 204, 0.14); /* light hairline on dark bg */
