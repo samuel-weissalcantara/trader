@@ -1,6 +1,5 @@
 ---
-import HeroDisc from "../HeroDisc.astro";
-import OpenStatus from "../OpenStatus.astro";
+import { MinimalistHero } from "../ui/minimalist-hero";
 import { site } from "../../data/site";
 import { getContent, type Lang } from "../../data/i18n";
 
@@ -11,179 +10,25 @@ const { lang } = Astro.props;
 const t = getContent(lang);
 ---
 
-<section class="hero-stage" data-hero-stage>
-  <div class="hero-pin">
-    <div class="wrap hero-grid">
-      <div class="hero-disc-stage" aria-hidden="true">
-        <HeroDisc />
-      </div>
-
-      <div class="hero-copy">
-        <p class="eyebrow">{t.hero.eyebrow}</p>
-        <h1>{t.hero.tagline}</h1>
-        <p class="hero-desc">{t.hero.descriptor}</p>
-
-        <div class="hero-row">
-          <OpenStatus lang={lang} />
-          <span class="sep" aria-hidden="true"></span>
-          <span class="addr">{site.address.street}, {site.address.city}</span>
-        </div>
-
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.hero.ctaVisit}</a>
-          <a class="btn btn-outline" href="#menu">{t.hero.ctaMenu}</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="hero-wrap">
+  <MinimalistHero
+    client:load
+    mainText={t.hero.blurb}
+    readMoreLabel={t.hero.readMore}
+    readMoreHref="#story"
+    imageSrc="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+    imageAlt="Close, moody shot of an espresso pour"
+    overlayText={{ part1: t.hero.overlayPart1, part2: t.hero.overlayPart2 }}
+    instagramHref={site.instagram}
+    instagramHandle={site.instagramHandle}
+    locationText={`${site.address.street}, ${site.address.city}`}
+  />
 </section>
 
 <style>
-  .hero-stage {
-    position: relative;
-    height: 160vh;
-  }
-
-  .hero-pin {
-    position: sticky;
-    top: var(--header-h, 81px);
-    height: calc(100vh - var(--header-h, 81px));
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    align-items: center;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    width: 100%;
-  }
-
-  .hero-disc-stage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .hero-copy {
-    text-align: left;
-  }
-
-  .hero-copy h1 {
-    margin-top: 0.3em;
-    font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.75rem);
-  }
-
-  .hero-desc {
-    max-width: 40ch;
-    font-size: 1.05rem;
-  }
-
-  .hero-row {
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    margin-block: 1.2em 1.6em;
-    flex-wrap: wrap;
-  }
-
-  .sep {
-    width: 1px;
-    height: 1.1em;
-    background: var(--line);
-  }
-
-  .addr {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-  }
-
-  .hero-ctas {
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: 900px) {
-    .hero-stage {
-      height: 145vh;
-    }
-
-    .hero-pin {
-      align-items: flex-start;
-      padding-block: clamp(1rem, 4vw, 2rem);
-    }
-
-    .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      overflow-y: auto;
-    }
-
-    .hero-disc-stage {
-      max-width: 220px;
-      margin-inline: auto;
-    }
-
-    .hero-copy {
-      text-align: center;
-    }
-
-    .eyebrow {
-      justify-content: center;
-    }
-
-    .hero-desc {
-      margin-inline: auto;
-    }
-
-    .hero-row,
-    .hero-ctas {
-      justify-content: center;
-    }
+  .hero-wrap {
+    /* var(--header-h) is set at runtime by Header.astro's script; falls
+       back to a sensible default so there's no layout jump before it runs. */
+    min-height: calc(100svh - var(--header-h, 81px));
   }
 </style>
-
-<script>
-  const stage = document.querySelector<HTMLElement>("[data-hero-stage]");
-  const disc = document.querySelector<HTMLElement>("[data-hero-disc]");
-  const header = document.querySelector<HTMLElement>(".site-header");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function setHeaderHeight() {
-    if (header) {
-      document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
-    }
-  }
-  setHeaderHeight();
-  window.addEventListener("resize", setHeaderHeight, { passive: true });
-
-  if (stage && disc && !reduceMotion) {
-    let ticking = false;
-
-    function update() {
-      if (!stage || !disc) return;
-      const total = stage.offsetHeight - window.innerHeight;
-      const scrolled = -stage.getBoundingClientRect().top;
-      const progress = Math.min(Math.max(total > 0 ? scrolled / total : 0, 0), 1);
-
-      disc.style.setProperty("--disc-scale", String(1.35 - progress * 0.35));
-      disc.style.setProperty("--disc-rotate", `${progress * 40}deg`);
-      ticking = false;
-    }
-
-    function onScroll() {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    update();
-  }
-</script>

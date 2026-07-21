@@ -30,6 +30,10 @@ export type Content = {
     descriptor: string;
     ctaVisit: string;
     ctaMenu: string;
+    overlayPart1: string;
+    overlayPart2: string;
+    blurb: string;
+    readMore: string;
   };
   openStatus: {
     checking: string;
@@ -114,6 +118,11 @@ const de: Content = {
     descriptor: "Spezialitätenkaffee, zeremonieller Matcha & wechselnde Kunst im Hamburger Schanzenviertel.",
     ctaVisit: "Besuch planen",
     ctaMenu: "Zur Speisekarte",
+    overlayPart1: "mehr als",
+    overlayPart2: "ein café.",
+    blurb:
+      "Ein Raum für Spezialitätenkaffee, zeremoniellen Matcha und wechselnde Kunst — roh, ungeschönt, echt. Mitten im Schanzenviertel.",
+    readMore: "Mehr erfahren",
   },
   openStatus: {
     checking: "Öffnungszeiten werden geprüft…",
@@ -257,6 +266,11 @@ const en: Content = {
     descriptor: "Specialty coffee, ceremonial matcha & rotating art in Hamburg's Schanze.",
     ctaVisit: "Plan your visit",
     ctaMenu: "See the menu",
+    overlayPart1: "more than",
+    overlayPart2: "a café.",
+    blurb:
+      "A room for specialty coffee, ceremonial matcha, and rotating art — raw, unpolished, real. Right in the middle of the Schanze.",
+    readMore: "Read more",
   },
   openStatus: {
     checking: "Checking today's hours…",

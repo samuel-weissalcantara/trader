@@ -1,26 +1,55 @@
-@import "@fontsource/instrument-serif";
-@import "@fontsource/instrument-serif/400-italic.css";
-@import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource/cormorant";
+@import "@fontsource/cormorant/500.css";
+@import "@fontsource/cormorant/600.css";
+@import "@fontsource/cormorant/400-italic.css";
+@import "@fontsource/cormorant/500-italic.css";
+@import "@fontsource/space-mono";
+@import "@fontsource/space-mono/700.css";
+
+/* Tailwind is configured with applyBaseStyles: false (astro.config.mjs) —
+   that only skips Tailwind's auto-injected Preflight/base reset, which
+   would otherwise fight this file's own reset below. It does NOT generate
+   any utility CSS on its own; these two directives are what actually turn
+   the component-level Tailwind classes (used in src/components/ui/*.tsx)
+   into real CSS. Deliberately omitting `@tailwind base;` (that's Preflight). */
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  /* Palette — warm cream base, brown/tan accents (inspired by the TRADER
-     icon reference: dark brown + tan-orange on cream/white) */
-  --paper: #f5efe2;
-  --paper-dim: #ece0cc;
-  --ink: #241c12;
-  --ink-soft: #6b5c46;
-  --sage: #a8580f;
-  --sage-dark: #7a3f0a;
-  --clay: #bf5710;
-  --line: rgba(36, 28, 18, 0.14);
-  --surface: #ffffff;
+  /* Palette — dark coffee-brown base (user-supplied CSV), khaki-beige text.
+     Mysterious / gritty / Berlinesque, not the earlier light cream attempts. */
+  --paper: #261d16; /* Coffee Bean — page bg */
+  --paper-dim: #3a281e; /* Dark Coffee 2 — alternating section band */
+  --surface: #402f23; /* Dark Coffee — raised card bg */
+  --ink: #e9dccb; /* derived light cream — headings / primary text */
+  --ink-soft: #bca089; /* Khaki Beige (CSV) — secondary/body text */
+  --sage: #a08a66; /* lightened accent — eyebrow text, status dot, stat numbers */
+  --sage-dark: #502614; /* Dark Walnut (CSV) — badge/button-hover backgrounds */
+  --clay: #8a6f4f; /* lightened Coffee Bean 2 — secondary accent (legal placeholders, etc.) */
+  --line: rgba(233, 220, 204, 0.14); /* light hairline on dark bg */
+
+  /* Deep "always darkest" panel tone — deliberately darker than the page
+     background, used for buttons, footer, and filled badges/chips so they
+     read as a solid block regardless of the base tone. Paired with
+     --on-chip for text on top of it. */
+  --chip: #170f0a;
+  --on-chip: #e9dccb;
+
+  /* Raw "R G B" channel triples (no commas) for the handful of tokens the
+     Tailwind config exposes with opacity-modifier support (e.g.
+     text-foreground/60) — Tailwind's rgb(var(--x) / <alpha-value>) pattern
+     needs bare channel numbers, not a hex string. */
+  --ink-rgb: 233 220 203; /* #e9dccb */
+  --ink-soft-rgb: 188 160 137; /* #bca089 */
+  --paper-rgb: 38 29 22; /* #261d16 */
 
   /* Type */
-  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-body: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant", ui-serif, Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-body: "Cormorant", ui-serif, Georgia, serif;
 
   /* Scale */
-  --step-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --step-body: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
   --step-h1: clamp(2.75rem, 2rem + 4vw, 5.5rem);
   --step-h2: clamp(2rem, 1.6rem + 2vw, 3.25rem);
   --step-h3: clamp(1.35rem, 1.2rem + 0.8vw, 1.85rem);
@@ -31,7 +60,7 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --dur: 0.7s;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {
@@ -59,11 +88,29 @@ html {
 body {
   margin: 0;
   background: var(--paper);
-  color: var(--ink);
+  color: var(--ink-soft);
   font-family: var(--font-body);
   font-size: var(--step-body);
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Film-grain overlay — filmic texture over the whole page. Fixed, low
+   opacity, non-interactive, and skipped for anyone opting out of motion/
+   effects-heavy UI via a coarser pointer check isn't reliable, so it's
+   gated only by prefers-reduced-motion being irrelevant here (it's static,
+   not animated) — always on, but cheap (single fixed layer, no repaint). */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
 }
 
 img {
@@ -80,10 +127,11 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.02;
   margin: 0 0 0.5em;
   letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
 h1 {
@@ -113,12 +161,12 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--sage-dark);
+  color: var(--sage);
 }
 
 .eyebrow::before {
@@ -132,10 +180,11 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.85em 1.6em;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  padding: 0.9em 1.7em;
   border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
@@ -148,12 +197,13 @@ p {
 }
 
 .btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--chip);
+  color: var(--on-chip);
 }
 
 .btn-primary:hover {
   background: var(--sage-dark);
+  color: var(--on-chip);
 }
 
 .btn-outline {
@@ -205,6 +255,6 @@ p {
 }
 
 ::selection {
-  background: var(--sage);
-  color: var(--paper);
+  background: var(--sage-dark);
+  color: var(--on-chip);
 }

@@ -254,4 +254,16 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
       toggle?.setAttribute("aria-expanded", "false");
     })
   );
+
+  // Expose the real rendered header height as a CSS var so sections that
+  // need to fill "the rest of the viewport" (the hero) can size against it
+  // without guessing — the header's height varies slightly by content/zoom.
+  const header = document.querySelector<HTMLElement>(".site-header");
+  function setHeaderHeight() {
+    if (header) {
+      document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    }
+  }
+  setHeaderHeight();
+  window.addEventListener("resize", setHeaderHeight, { passive: true });
 </script>
