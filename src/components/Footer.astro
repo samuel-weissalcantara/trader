@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/site";
 import { getContent, localePath, type Lang } from "../data/i18n";
+import Mark from "./Mark.astro";
 
 interface Props {
   lang: Lang;
@@ -12,7 +13,7 @@ const t = getContent(lang);
 <footer class="site-footer">
   <div class="wrap grid">
     <div class="col brand">
-      <p class="wordmark">TRADER<span>Gallery</span></p>
+      <p class="wordmark"><Mark size="1.6em" class="mark" />TRADER<span>Gallery</span></p>
       <p class="tag">{t.hero.tagline}</p>
       <a class="ig" href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle} ↗</a>
     </div>
@@ -78,6 +79,14 @@ const t = getContent(lang);
     font-family: var(--font-display);
     font-size: 1.6rem;
     margin: 0 0 0.3em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  :global(.brand .wordmark .mark) {
+    flex-shrink: 0;
+    border-radius: 50%;
   }
 
   .brand .wordmark span {

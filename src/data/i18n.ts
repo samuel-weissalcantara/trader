@@ -94,6 +94,9 @@ export type Content = {
     exhibitionDatesLabel: string;
   };
   legalNav: { impressum: string; datenschutz: string };
+  exhibition: {
+    description: string;
+  };
   testimonials: {
     eyebrow: string;
     heading: string;
@@ -124,7 +127,7 @@ const de: Content = {
     heading: "Ein Café, gebaut von einem Sammler.",
     body: [
       "TRADER entstand aus dem Wunsch von Vincent von Thien, Hamburg mehr als nur ein weiteres Café zu geben — einen Raum, in dem Spezialitätenkaffee, zeremonieller Matcha und kuratierte Kunst denselben Tisch teilen.",
-      "Der Raum im Schanzenviertel ist mit gefundenen und Vintage-Stücken eingerichtet, viele davon käuflich, direkt neben der Kunst an den Wänden. Ausstellungen wechseln, Abende werden zu Live-Musik, und die Espressomaschine läuft die ganze Zeit weiter.",
+      "Der Raum im Schanzenviertel ist mit gefundenen und Vintage-Stücken eingerichtet, viele davon käuflich, direkt neben der Kunst an den Wänden. Ausstellungen wechseln, Fermentations- und Kombucha-Workshops finden statt, Abende werden zu Live-Musik und Print-Launches, und die Espressomaschine läuft die ganze Zeit weiter.",
       "Aus TRADER ist inzwischen eine kleine Konstellation in der Stadt geworden — das ursprüngliche Café, TRADER Gallery und die neuere TRADER HiFi Listening Bar — jede gebaut um dieselbe Idee: langsamer werden, genau hinsehen, etwas Gutes schmecken.",
     ],
     stats: [
@@ -200,12 +203,12 @@ const de: Content = {
     eyebrow: "Die Galerie",
     heading: "Kunst an den Wänden, immer verkäuflich.",
     lede: "TRADER hängt alle paar Wochen neue Werke — kleine Gemälde, Objekte aus Fundstücken, Drucke — neben den Vintage-Möbeln und Designobjekten, die schon im Raum stehen. Unten: die aktuelle Ausstellung und Momente aus dem Café selbst.",
-    exhibitionEyebrow: "Aktuell zu sehen",
+    exhibitionEyebrow: "Aus der Galerie",
     enquire: "Nach einem Werk fragen",
     momentsEyebrow: "Café-Momente",
     momentsHeading: "Raum, Kaffee, Menschen.",
     categories: { All: "Alle", Space: "Raum", Coffee: "Kaffee", Art: "Kunst", People: "Menschen" },
-    exhibitionDatesLabel: "12. Juli – 24. August 2026",
+    exhibitionDatesLabel: "Eröffnung 25. Juli 2025",
     images: [
       { id: "g1", title: "Schaufenster, Morgenlicht", alt: "Vintage eingerichtetes Café-Interieur mit Morgenlicht durch das Schaufenster" },
       { id: "g2", title: "Flat White, Latte Art", alt: "Flat White mit Rosetten-Latte-Art auf einem Holztisch" },
@@ -219,6 +222,10 @@ const de: Content = {
     ],
   },
   legalNav: { impressum: "Impressum", datenschutz: "Datenschutz" },
+  exhibition: {
+    description:
+      "Fantasievolle Entdecker, die sowohl die Erde als auch den Weltraum bevölkern — im Zentrum von Henry Woods Bildhauerarbeit. Die Figuren spiegeln seine Leidenschaft für die Natur und für Technologie wider. Mit traditionellen Grünholz-Schnitztechniken schnitzt er jedes Stück aus Holz, das er lokal und auf seinen Reisen sammelt, in Zusammenarbeit mit Aleph Geddis.",
+  },
   testimonials: {
     eyebrow: "Bewertungen",
     heading: "Was unsere Gäste sagen.",
@@ -263,7 +270,7 @@ const en: Content = {
     heading: "A café built by a collector.",
     body: [
       "TRADER began with Vincent von Thien's wish to give Hamburg more than another coffee shop — a room where specialty coffee, ceremonial matcha, and curated art share the same table.",
-      "The Schanze space is furnished in found and vintage pieces, many of them for sale alongside the art on the walls. Exhibitions rotate, evenings turn into live music, and the espresso machine keeps running through all of it.",
+      "The Schanze space is furnished in found and vintage pieces, many of them for sale alongside the art on the walls. Exhibitions rotate, fermentation and kombucha workshops happen in between, evenings turn into live music and print launches, and the espresso machine keeps running through all of it.",
       "TRADER has since grown into a small constellation across the city — the original café, TRADER Gallery, and the newer TRADER HiFi listening bar — each one still built around the same idea: slow down, look closely, taste something good.",
     ],
     stats: [
@@ -338,12 +345,12 @@ const en: Content = {
     eyebrow: "The gallery",
     heading: "Art on the walls, always for sale.",
     lede: "TRADER hangs new work every few weeks — small paintings, found-object pieces, prints — alongside the vintage furniture and design objects already in the room. Below: the current exhibition, and moments from the café itself.",
-    exhibitionEyebrow: "Currently showing",
+    exhibitionEyebrow: "From the gallery",
     enquire: "Enquire about a piece",
     momentsEyebrow: "Café moments",
     momentsHeading: "Space, coffee, people.",
     categories: { All: "All", Space: "Space", Coffee: "Coffee", Art: "Art", People: "People" },
-    exhibitionDatesLabel: "12 July — 24 August 2026",
+    exhibitionDatesLabel: "Opened 25 July 2025",
     images: [
       { id: "g1", title: "Front window, morning light", alt: "Vintage-furnished café interior with morning light through the front window" },
       { id: "g2", title: "Flat white, latte art", alt: "Flat white with rosetta latte art on a wooden table" },
@@ -357,6 +364,10 @@ const en: Content = {
     ],
   },
   legalNav: { impressum: "Legal Notice", datenschutz: "Privacy Policy" },
+  exhibition: {
+    description:
+      "Imaginative explorers that populate both earth and space, from the core of Henry Wood's sculptural work. The figures reflect his passion for the great outdoors and for technology. Using traditional green-woodcarving techniques, he carves each piece from timber sourced locally and during his travels, in collaboration with Aleph Geddis.",
+  },
   testimonials: {
     eyebrow: "Reviews",
     heading: "What our guests say.",

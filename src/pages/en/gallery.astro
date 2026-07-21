@@ -47,19 +47,7 @@ const categories = [
         <p class="eyebrow">{t.galleryPage.exhibitionEyebrow}</p>
         <h2>{exhibition.title}</h2>
         <p class="artist">{exhibition.artist} · {t.galleryPage.exhibitionDatesLabel}</p>
-        <p>{exhibition.description}</p>
-
-        <ul class="works">
-          {exhibition.works.map((w) => (
-            <li>
-              <div>
-                <span class="w-title">{w.title}</span>
-                <span class="w-medium">{w.medium}</span>
-              </div>
-              <span class="w-price">{w.price}</span>
-            </li>
-          ))}
-        </ul>
+        <p>{t.exhibition.description}</p>
 
         <a class="btn btn-primary" href={`mailto:${exhibition.enquireEmail}`}>{t.galleryPage.enquire}</a>
       </div>
@@ -143,35 +131,8 @@ const categories = [
     margin-top: -0.4em;
   }
 
-  .works {
-    list-style: none;
-    margin: 1.4em 0 1.8em;
-    padding: 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .works li {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-    padding-block: 0.8em;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .w-title {
-    display: block;
-    font-weight: 600;
-  }
-
-  .w-medium {
-    display: block;
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-  }
-
-  .w-price {
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+  .ex-copy .btn {
+    margin-top: 1.4em;
   }
 
   .filters {

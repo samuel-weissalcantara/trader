@@ -67,12 +67,7 @@ export const galleryImages: GalleryImageFact[] = [
 ];
 
 export const exhibition = {
-  title: "Nachbild",
-  artist: "Mara Ostheim",
-  works: [
-    { title: "Nachbild I", medium: "Oil on board, 24 × 30 cm", price: "€480" },
-    { title: "Nachbild IV", medium: "Oil on board, 18 × 24 cm", price: "€360" },
-    { title: "Fundstück (Vitrine)", medium: "Found-object assemblage", price: "€620" },
-  ],
+  title: "Aleph Geddis × Henry Wood",
+  artist: "Aleph Geddis & Henry Wood",
   enquireEmail: "gallery@trader-hamburg.example",
 };

@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/site";
 import { getContent, localePath, type Lang } from "../data/i18n";
+import Mark from "./Mark.astro";
 
 interface Props {
   page?: "home" | "gallery" | "legal";
@@ -17,6 +18,7 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
 <header class="site-header">
   <div class="wrap bar">
     <a href={localePath(lang, "/")} class="wordmark" aria-label="TRADER home">
+      <Mark size="1.8em" class="mark" />
       TRADER
       <span class="wordmark-sub">Gallery</span>
     </a>
@@ -77,8 +79,13 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
     text-decoration: none;
     color: var(--ink);
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.5em;
+  }
+
+  :global(.wordmark .mark) {
+    flex-shrink: 0;
+    border-radius: 50%;
   }
 
   .wordmark-sub {
