@@ -1,6 +1,5 @@
 ---
-import Frame from "../Frame.astro";
-import OpenStatus from "../OpenStatus.astro";
+import { MinimalistHero } from "../ui/minimalist-hero";
 import { site } from "../../data/site";
 import { getContent, type Lang } from "../../data/i18n";
 
@@ -11,91 +10,27 @@ const { lang } = Astro.props;
 const t = getContent(lang);
 ---
 
-<section class="hero">
-  <div class="hero-media">
-    <Frame src="placeholder:space:4" alt="TRADER's front room, vintage furniture and morning light" ratio="16 / 12" eager />
-  </div>
-
-  <div class="wrap hero-content reveal" data-reveal>
-    <p class="eyebrow">{t.hero.eyebrow}</p>
-    <h1>{t.hero.tagline}</h1>
-    <p class="hero-desc">{t.hero.descriptor}</p>
-
-    <div class="hero-row">
-      <OpenStatus lang={lang} />
-      <span class="sep" aria-hidden="true"></span>
-      <span class="addr">{site.address.street}, {site.address.city}</span>
-    </div>
-
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href={site.mapsUrl} target="_blank" rel="noopener">{t.hero.ctaVisit}</a>
-      <a class="btn btn-outline" href="#menu">{t.hero.ctaMenu}</a>
-    </div>
-  </div>
+<section class="hero-wrap">
+  <MinimalistHero
+    client:load
+    eyebrow={t.hero.eyebrow}
+    mainText={t.hero.blurb}
+    quotes={t.hero.quotes}
+    readMoreLabel={t.hero.readMore}
+    readMoreHref="#story"
+    imageSrc="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+    imageAlt="Close, moody shot of an espresso pour"
+    overlayText={{ part1: t.hero.overlayPart1, part2: t.hero.overlayPart2 }}
+    instagramHref={site.instagram}
+    instagramHandle={site.instagramHandle}
+    locationText={`${site.address.street}, ${site.address.city}`}
+  />
 </section>
 
 <style>
-  .hero {
-    position: relative;
-    padding-top: clamp(2rem, 5vw, 3.5rem);
-  }
-
-  .hero-media {
-    margin-inline: var(--gutter);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .hero-content {
-    margin-top: clamp(-4rem, -8vw, -2.5rem);
-    position: relative;
-    background: var(--paper);
-    padding: clamp(1.75rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3.5rem);
-    max-width: 44rem;
-    margin-left: var(--gutter);
-    border-radius: 6px;
-    box-shadow: 0 30px 60px -30px rgba(33, 28, 22, 0.25);
-  }
-
-  .hero-content h1 {
-    margin-top: 0.2em;
-  }
-
-  .hero-desc {
-    max-width: 42ch;
-    font-size: 1.05rem;
-  }
-
-  .hero-row {
-    display: flex;
-    align-items: center;
-    gap: 0.9em;
-    margin-block: 1.4em 1.8em;
-    flex-wrap: wrap;
-  }
-
-  .sep {
-    width: 1px;
-    height: 1.1em;
-    background: var(--line);
-  }
-
-  .addr {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-  }
-
-  .hero-ctas {
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: 780px) {
-    .hero-content {
-      margin-inline: var(--gutter);
-      margin-top: -2.5rem;
-      max-width: none;
-    }
+  .hero-wrap {
+    /* var(--header-h) is set at runtime by Header.astro's script; falls
+       back to a sensible default so there's no layout jump before it runs. */
+    min-height: calc(112svh - var(--header-h, 81px));
   }
 </style>

@@ -126,7 +126,7 @@ const categories = [
   }
 
   .ex-copy .artist {
-    color: var(--sage-dark);
+    color: var(--sage);
     font-weight: 600;
     margin-top: -0.4em;
   }
@@ -160,9 +160,9 @@ const categories = [
   }
 
   .filter-chip[aria-pressed="true"] {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--paper);
+    background: var(--chip);
+    border-color: var(--chip);
+    color: var(--on-chip);
   }
 
   .grid {
@@ -200,7 +200,7 @@ const categories = [
     justify-content: center;
     gap: 0.3em;
     background: rgba(33, 28, 22, 0);
-    color: var(--paper);
+    color: var(--on-chip);
     opacity: 0;
     transition: opacity 0.3s var(--ease), background 0.3s var(--ease);
     text-align: center;
@@ -272,7 +272,7 @@ const categories = [
   }
 
   .lb-info {
-    color: var(--paper);
+    color: var(--on-chip);
     text-align: center;
     margin-top: 1em;
   }
@@ -298,7 +298,7 @@ const categories = [
     position: fixed;
     background: rgba(244, 239, 230, 0.08);
     border: 1px solid rgba(244, 239, 230, 0.25);
-    color: var(--paper);
+    color: var(--on-chip);
     border-radius: 50%;
     width: 2.6em;
     height: 2.6em;

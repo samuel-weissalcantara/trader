@@ -18,10 +18,10 @@ const isPlaceholder = src.startsWith("placeholder:");
 const [, category = "Space", seed = "1"] = src.split(":");
 
 const palettes: Record<string, [string, string]> = {
-  Space: ["#3a3226", "#7c8a5a"],
-  Coffee: ["#211c16", "#b5714f"],
-  Art: ["#5f6b43", "#b5714f"],
-  People: ["#4a4239", "#ece4d4"],
+  Space: ["#3a281e", "#6a543d"],
+  Coffee: ["#261d16", "#8a6f4f"],
+  Art: ["#502614", "#6a543d"],
+  People: ["#402f23", "#bca089"],
 };
 const [c1, c2] = palettes[category] ?? palettes.Space;
 const angle = (Number(seed) * 47) % 360;

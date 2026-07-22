@@ -18,7 +18,7 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
 <header class="site-header">
   <div class="wrap bar">
     <a href={localePath(lang, "/")} class="wordmark" aria-label="TRADER home">
-      <Mark size="1.8em" class="mark" />
+      <Mark size="2.4em" class="mark" />
       TRADER
       <span class="wordmark-sub">Gallery</span>
     </a>
@@ -59,7 +59,7 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(244, 239, 230, 0.86);
+    background: rgba(38, 29, 22, 0.86);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
@@ -74,13 +74,15 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
   .wordmark {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     letter-spacing: 0.02em;
     text-decoration: none;
     color: var(--ink);
     display: flex;
     align-items: center;
     gap: 0.5em;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   :global(.wordmark .mark) {
@@ -93,7 +95,7 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
     font-size: 0.62rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--sage-dark);
+    color: var(--sage);
     font-weight: 700;
   }
 
@@ -123,7 +125,7 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
     bottom: -2px;
     width: 0;
     height: 1px;
-    background: var(--sage-dark);
+    background: var(--sage);
     transition: width 0.25s var(--ease);
   }
 
@@ -222,12 +224,18 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
   }
 
   .mobile-nav .ig-link {
-    color: var(--sage-dark);
+    color: var(--sage);
     font-weight: 600;
   }
 
   .mobile-nav.is-open {
     display: flex;
+  }
+
+  @media (max-width: 1100px) {
+    .wordmark-sub {
+      display: none;
+    }
   }
 
   @media (max-width: 780px) {
@@ -254,4 +262,16 @@ const otherLang: Lang = lang === "de" ? "en" : "de";
       toggle?.setAttribute("aria-expanded", "false");
     })
   );
+
+  // Expose the real rendered header height as a CSS var so sections that
+  // need to fill "the rest of the viewport" (the hero) can size against it
+  // without guessing — the header's height varies slightly by content/zoom.
+  const header = document.querySelector<HTMLElement>(".site-header");
+  function setHeaderHeight() {
+    if (header) {
+      document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    }
+  }
+  setHeaderHeight();
+  window.addEventListener("resize", setHeaderHeight, { passive: true });
 </script>
