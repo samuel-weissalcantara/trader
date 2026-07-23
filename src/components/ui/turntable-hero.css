@@ -94,9 +94,9 @@
 
 .turntable-vinyl {
   position: absolute;
-  left: 21%;
-  top: 36%;
-  width: 34%;
+  left: 20.6%;
+  top: 44.8%;
+  width: 26.7%;
   z-index: 2;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
@@ -132,9 +132,9 @@
   }
 
   .turntable-vinyl {
-    left: 23%;
-    top: 32%;
-    width: 44%;
+    left: 21.4%;
+    top: 28%;
+    width: 30.6%;
   }
 }
 
