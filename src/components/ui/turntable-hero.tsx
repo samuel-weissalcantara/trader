@@ -4,10 +4,11 @@ import "./turntable-hero.css";
 
 // Hero built from the user's own Canva sketch: a DJ controller (left) with
 // a vinyl record overlaid on its jog wheel, and an espresso cup (right),
-// form a "turntable" scene. All three spin slowly at idle and speed up while the
-// page scrolls. The scene pins via position:sticky (see .turntable-pin in
-// the companion CSS), scales up slightly while pinned, then fades out as
-// the next section reaches the top.
+// form a "turntable" scene. The controller itself is static; the vinyl and
+// the cup spin slowly at idle and speed up while the page scrolls. The
+// scene pins via position:sticky (see .turntable-pin in the companion
+// CSS), scales up slightly while pinned, then unpins and fades out as it
+// scrolls away naturally, finishing right as the Story section arrives.
 //
 // disc.webp is a separate crop from the same source photo as
 // controller.webp — these constants (read off the crop coordinates used to
@@ -21,7 +22,6 @@ const DISC_DIAM_PCT = 0.6043;
 const IDLE_DEG_PER_SEC = 6;
 const SCROLL_BOOST = 0.6;
 const MAX_SCALE = 1.08;
-const FADE_START = 0.55;
 
 interface TurntableHeroProps {
   eyebrow: string;
@@ -34,7 +34,6 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
   const reduceMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
-  const discRef = useRef<HTMLDivElement>(null);
   const cupRef = useRef<HTMLDivElement>(null);
   const vinylRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +43,6 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
     let raf = 0;
     let lastTime = performance.now();
     let lastScrollY = window.scrollY;
-    let discDeg = 0;
     let cupDeg = 0;
     let vinylDeg = 0;
 
@@ -57,20 +55,32 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
       lastScrollY = scrollY;
 
       const boost = scrollDelta * SCROLL_BOOST;
-      discDeg += IDLE_DEG_PER_SEC * dtSec + boost;
       cupDeg += IDLE_DEG_PER_SEC * 0.7 * dtSec + boost * 0.7;
       vinylDeg += IDLE_DEG_PER_SEC * 0.5 * dtSec + boost * 0.5;
 
-      if (discRef.current) discRef.current.style.transform = `rotate(${discDeg}deg)`;
       if (cupRef.current) cupRef.current.style.transform = `rotate(${cupDeg}deg)`;
       if (vinylRef.current) vinylRef.current.style.transform = `translate(-50%, -50%) rotate(${vinylDeg}deg)`;
 
       if (wrapperRef.current && pinRef.current) {
         const rect = wrapperRef.current.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        const progress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-        const scale = 1 + progress * (MAX_SCALE - 1);
-        const opacity = progress < FADE_START ? 1 : Math.max(0, 1 - (progress - FADE_START) / (1 - FADE_START));
+        const innerH = window.innerHeight;
+        // "total" is the scroll distance while the scene is still pinned
+        // (position:sticky) — used to drive the scale-up. Once that's used
+        // up the element unpins and scrolls away normally; the fade is
+        // tied to *that* natural scroll-off distance (rect.top past
+        // -total) rather than to the pin buffer, so opacity only reaches 0
+        // right as the scene actually leaves the viewport — not before,
+        // which previously left a blank pinned gap before Story appeared.
+        const total = rect.height - innerH;
+        const pinProgress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+        const scale = 1 + pinProgress * (MAX_SCALE - 1);
+
+        let opacity = 1;
+        if (total > 0 && -rect.top > total) {
+          const scrolledPast = -rect.top - total;
+          opacity = Math.max(0, 1 - scrolledPast / innerH);
+        }
+
         pinRef.current.style.transform = `scale(${scale})`;
         pinRef.current.style.opacity = String(opacity);
       }
@@ -83,7 +93,7 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
   }, [reduceMotion]);
 
   return (
-    <div ref={wrapperRef} className={`turntable-hero ${className ?? ""}`} style={{ height: "130svh" }}>
+    <div ref={wrapperRef} className={`turntable-hero ${className ?? ""}`} style={{ height: "115svh" }}>
       <div ref={pinRef} className="turntable-pin">
         <div className="turntable-copy">
           <p className="turntable-eyebrow">{eyebrow}</p>
@@ -98,7 +108,6 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
           <div className="turntable-controller">
             <img src="/images/controller.webp" alt="" aria-hidden="true" />
             <div
-              ref={discRef}
               className="turntable-disc"
               style={{
                 left: `${DISC_LEFT_PCT * 100}%`,
