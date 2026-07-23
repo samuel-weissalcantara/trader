@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 import "./turntable-hero.css";
 
-// Hero built from the user's own Canva sketch: a DJ controller (left),
-// espresso cup (right) and vinyl record (centered, lower) form a
-// "turntable" scene. All three spin slowly at idle and speed up while the
+// Hero built from the user's own Canva sketch: a DJ controller (left) with
+// a vinyl record overlaid on its jog wheel, and an espresso cup (right),
+// form a "turntable" scene. All three spin slowly at idle and speed up while the
 // page scrolls. The scene pins via position:sticky (see .turntable-pin in
 // the companion CSS), scales up slightly while pinned, then fades out as
 // the next section reaches the top.
@@ -63,7 +63,7 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
 
       if (discRef.current) discRef.current.style.transform = `rotate(${discDeg}deg)`;
       if (cupRef.current) cupRef.current.style.transform = `rotate(${cupDeg}deg)`;
-      if (vinylRef.current) vinylRef.current.style.transform = `translateX(-50%) rotate(${vinylDeg}deg)`;
+      if (vinylRef.current) vinylRef.current.style.transform = `translate(-50%, -50%) rotate(${vinylDeg}deg)`;
 
       if (wrapperRef.current && pinRef.current) {
         const rect = wrapperRef.current.getBoundingClientRect();
@@ -83,7 +83,7 @@ export const TurntableHero = ({ eyebrow, headlinePart1, headlinePart2, className
   }, [reduceMotion]);
 
   return (
-    <div ref={wrapperRef} className={`turntable-hero ${className ?? ""}`} style={{ height: "180svh" }}>
+    <div ref={wrapperRef} className={`turntable-hero ${className ?? ""}`} style={{ height: "130svh" }}>
       <div ref={pinRef} className="turntable-pin">
         <div className="turntable-copy">
           <p className="turntable-eyebrow">{eyebrow}</p>
