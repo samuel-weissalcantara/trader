@@ -1,0 +1,146 @@
+.turntable-hero {
+  position: relative;
+  min-height: calc(112svh - var(--header-h, 81px));
+  background: var(--paper);
+  overflow: clip;
+}
+
+.turntable-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+.turntable-copy {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-inline: var(--gutter);
+  max-width: 46rem;
+}
+
+.turntable-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin: 0 0 0.75rem;
+}
+
+.turntable-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  line-height: 0.95;
+  font-size: clamp(2.75rem, 2rem + 4vw, 5.5rem);
+  color: var(--ink);
+  margin: 0;
+}
+
+.turntable-scene {
+  position: relative;
+  z-index: 1;
+  width: min(90vw, 900px);
+  height: min(60vh, 600px);
+  margin-top: 1.5rem;
+}
+
+.turntable-controller {
+  position: absolute;
+  left: 2%;
+  top: 12%;
+  width: 40%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+.turntable-controller img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.turntable-disc {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.turntable-disc img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.turntable-cup {
+  position: absolute;
+  right: 4%;
+  top: 6%;
+  width: 30%;
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
+}
+
+.turntable-cup img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.turntable-vinyl {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  width: 34%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.55));
+}
+
+.turntable-vinyl img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .turntable-scene {
+    width: 92vw;
+    height: 48vh;
+    margin-top: 1rem;
+  }
+
+  .turntable-headline {
+    font-size: clamp(2.1rem, 1.6rem + 3.5vw, 3rem);
+  }
+
+  .turntable-controller {
+    left: 0;
+    top: 8%;
+    width: 46%;
+  }
+
+  .turntable-cup {
+    right: 0;
+    top: 0;
+    width: 34%;
+  }
+
+  .turntable-vinyl {
+    width: 40%;
+    bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turntable-pin {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 90svh;
+  }
+}

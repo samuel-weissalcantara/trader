@@ -1,6 +1,5 @@
 ---
-import { MinimalistHero } from "../ui/minimalist-hero";
-import { site } from "../../data/site";
+import { TurntableHero } from "../ui/turntable-hero";
 import { getContent, type Lang } from "../../data/i18n";
 
 interface Props {
@@ -10,27 +9,9 @@ const { lang } = Astro.props;
 const t = getContent(lang);
 ---
 
-<section class="hero-wrap">
-  <MinimalistHero
-    client:load
-    eyebrow={t.hero.eyebrow}
-    mainText={t.hero.blurb}
-    quotes={t.hero.quotes}
-    readMoreLabel={t.hero.readMore}
-    readMoreHref="#story"
-    imageSrc="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
-    imageAlt="Close, moody shot of an espresso pour"
-    overlayText={{ part1: t.hero.overlayPart1, part2: t.hero.overlayPart2 }}
-    instagramHref={site.instagram}
-    instagramHandle={site.instagramHandle}
-    locationText={`${site.address.street}, ${site.address.city}`}
-  />
-</section>
-
-<style>
-  .hero-wrap {
-    /* var(--header-h) is set at runtime by Header.astro's script; falls
-       back to a sensible default so there's no layout jump before it runs. */
-    min-height: calc(112svh - var(--header-h, 81px));
-  }
-</style>
+<TurntableHero
+  client:load
+  eyebrow={t.hero.eyebrow}
+  headlinePart1={t.hero.overlayPart1}
+  headlinePart2={t.hero.overlayPart2}
+/>
