@@ -74,6 +74,7 @@ export type Content = {
     hoursTitle: string;
     hoursDisplay: { label: string; value: string }[];
     ctaDirections: string;
+    mapConsent: { text: string; linkLabel: string; button: string };
   };
   footer: {
     visitTitle: string;
@@ -198,6 +199,11 @@ const de: Content = {
       { label: "Montag", value: "Geschlossen" },
     ],
     ctaDirections: "Route anzeigen",
+    mapConsent: {
+      text: "Beim Laden der Karte wird eine Verbindung zu Google-Servern hergestellt und Ihre IP-Adresse übertragen.",
+      linkLabel: "Mehr dazu in unserer Datenschutzerklärung.",
+      button: "Karte laden",
+    },
   },
   footer: {
     visitTitle: "Besuch",
@@ -346,6 +352,11 @@ const en: Content = {
       { label: "Monday", value: "Closed" },
     ],
     ctaDirections: "Get directions",
+    mapConsent: {
+      text: "Loading the map connects to Google's servers and transmits your IP address.",
+      linkLabel: "More in our privacy policy.",
+      button: "Load map",
+    },
   },
   footer: {
     visitTitle: "Visit",

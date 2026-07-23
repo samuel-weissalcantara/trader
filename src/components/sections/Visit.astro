@@ -1,7 +1,7 @@
 ---
 import OpenStatus from "../OpenStatus.astro";
 import { site } from "../../data/site";
-import { getContent, type Lang } from "../../data/i18n";
+import { getContent, localePath, type Lang } from "../../data/i18n";
 
 interface Props {
   lang: Lang;
@@ -10,20 +10,26 @@ const { lang } = Astro.props;
 const t = getContent(lang);
 
 // Keyless Google Maps embed (the `output=embed` form works without an API
-// key, unlike the Maps Embed API's /maps/embed/v1/place endpoint).
+// key, unlike the Maps Embed API's /maps/embed/v1/place endpoint). Not
+// loaded until the user clicks through the consent gate below — an iframe
+// with a `src` starts the request to Google the moment it's in the DOM,
+// consent or not, so the gate has to keep the src out of markup entirely
+// until then (see the script at the bottom of this file).
 const mapEmbedSrc = `https://www.google.com/maps?q=${site.address.lat},${site.address.lng}&z=16&output=embed`;
+const mapTitle = `Karte: ${site.fullName}, ${site.address.street}`;
 ---
 
 <section id="visit" class="section visit">
   <div class="wrap visit-grid">
     <div class="visit-map reveal" data-reveal>
-      <iframe
-        class="visit-map-frame"
-        src={mapEmbedSrc}
-        title={`Karte: ${site.fullName}, ${site.address.street}`}
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <div class="map-gate" data-map-gate data-src={mapEmbedSrc} data-title={mapTitle}>
+        <p class="map-gate-text">
+          {t.visit.mapConsent.text}
+          {" "}
+          <a href={localePath(lang, "/datenschutz")}>{t.visit.mapConsent.linkLabel}</a>
+        </p>
+        <button type="button" class="btn btn-outline" data-map-gate-button>{t.visit.mapConsent.button}</button>
+      </div>
     </div>
 
     <div class="visit-copy reveal" data-reveal>
@@ -69,7 +75,7 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${site.address.lat},${site.ad
     border-radius: 4px;
   }
 
-  .visit-map-frame {
+  .visit-map :global(iframe) {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -78,6 +84,31 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${site.address.lat},${site.ad
     /* Dark-mode-ify the (always-light) Google Maps iframe so it doesn't
        clash with the site's dark coffee-brown palette. */
     filter: grayscale(0.35) invert(0.9) contrast(0.92) brightness(0.95) hue-rotate(180deg);
+  }
+
+  .map-gate {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2em;
+    text-align: center;
+    padding: 2em;
+    background: linear-gradient(135deg, var(--paper-dim), var(--surface));
+  }
+
+  .map-gate-text {
+    max-width: 26em;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .map-gate-text a {
+    color: var(--sage);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .visit-block {
@@ -127,3 +158,17 @@ const mapEmbedSrc = `https://www.google.com/maps?q=${site.address.lat},${site.ad
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-map-gate]").forEach((gate) => {
+    const button = gate.querySelector<HTMLButtonElement>("[data-map-gate-button]");
+    button?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = gate.dataset.src ?? "";
+      iframe.title = gate.dataset.title ?? "";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      gate.replaceWith(iframe);
+    });
+  });
+</script>
